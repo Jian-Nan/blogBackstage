@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:th="http://www.thymeleaf.org"
+        lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Meta -->
+    <meta name="description" content="Responsive Bootstrap 4 Dashboard and Admin Template">
+    <meta name="author" content="ThemePixels">
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/x-icon" th:href="${'/assets/img/favicon.png'}">
+    <!-- vendor css -->
+<!--    引入css-->
+    <!--<link href="../lib/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet">-->
+    <link th:href="${'/lib/ionicons/css/ionicons.min.css'}" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" th:href="${'/assets/css/jquery.dataTables.min.css'}">
+    <link rel="stylesheet" type="text/css" th:href="${'/assets/css/buttons.dataTables.min.css'}">
+    <link rel="stylesheet" type="text/css" th:href="${'/assets/css/select.dataTables.min.css'}">
+    <link rel="stylesheet" type="text/css" th:href="${'/assets/css/editor.dataTables.min.css'}"/>
+    <!-- template css -->
+    <link rel="stylesheet" th:href="${'/assets/css/cassie.css'}">
+
+
+    <title>HuangJNBackstage</title>
+</head>
+
+<body>
+<!--碎片化组装-->
+
+<!--include fragments/sidebar.html 边缘选择-->
+<div th:replace="fragments/sidebar"></div>
+
+<div class="content">
+    <!--include fragments/header.html 头部-->
+    <div th:replace="fragments/header"></div>
+
+
+    <!-- body content -->
+    <div th:if="${template}">
+        <div th:replace="${template}"></div>
+    </div>
+    <!-- if ${template}!=null
+          include ${template};
+    -->
+    <!--include template page-->
+</div>
+
+
+<!--include fragments/footer.html 底部-->
+<div th:replace="fragments/footer"></div>
+<!--引入js-->
+<script th:src="${'/lib/jquery/jquery.min.js'}"></script>
+<script th:src="${'/lib/bootstrap/js/bootstrap.bundle.min.js'}"></script>
+<script th:src="${'/lib/feather-icons/feather.min.js'}"></script>
+<script th:src="${'/lib/perfect-scrollbar/perfect-scrollbar.min.js'}"></script>
+<script th:src="${'/lib/js-cookie/js.cookie.js'}"></script>
+
+<script th:src="${'/assets/js/cassie.js'}"></script>
+<script type="text/javascript" language="javascript" th:src="${'/assets/js/jquery.dataTables.min.js'}"></script>
+<script type="text/javascript" language="javascript" th:src="${'/assets/js/dataTables.buttons.min.js'}"></script>
+<script type="text/javascript" language="javascript" th:src="${'/assets/js/dataTables.select.min.js'}"></script>
+<script th:src="${'/assets/js/dataTables.editor.min.js'}"></script>
+<script>
+<!--    用于保存点击的菜单-->
+    $(function () {
+        var urlstr = location.href; //获取点击的url
+        var urlstatus=false;    //标识点击状态
+        $("#dpSidebarBody  a").each(function () {
+            if ((urlstr + '/').indexOf($(this).attr('href')) > -1&&$(this).attr('href')!='') {
+                var lielement=$(this).parent().parent();
+                lielement.addClass('show');
+                $(this).parent().prev().addClass('active');
+
+                $(this).addClass('active');   //添加点击状态类
+                // alert($(this).parent().parent());
+                urlstatus = true;   //切换点击状态
+            } else {
+                $(this).removeClass('active');  //移除点击状态类
+            }
+        });
+    })
+</script>
+</body>
+</html>
