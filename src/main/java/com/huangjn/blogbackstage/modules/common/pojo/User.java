@@ -1,4 +1,4 @@
-package com.huangjn.blogbackstage.modules.account.pojo;
+package com.huangjn.blogbackstage.modules.common.pojo;
 
 public class User {
     private int uid;

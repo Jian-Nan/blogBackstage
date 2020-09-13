@@ -1,4 +1,4 @@
-package com.huangjn.blogbackstage.modules.account.dao;
+package com.huangjn.blogbackstage.modules.common.dao;
 
 import org.apache.ibatis.annotations.Mapper;
 
