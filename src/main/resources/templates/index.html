@@ -11,17 +11,13 @@
     <!-- Meta -->
     <meta name="description" content="Responsive Bootstrap 4 Dashboard and Admin Template">
     <meta name="author" content="ThemePixels">
-
+    <script th:src="${'/lib/jquery/jquery.min.js'}"></script>
     <!-- Favicon -->
     <link rel="shortcut icon" type="image/x-icon" th:href="${'/assets/img/favicon.png'}">
     <!-- vendor css -->
 <!--    引入css-->
     <!--<link href="../lib/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet">-->
     <link th:href="${'/lib/ionicons/css/ionicons.min.css'}" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" th:href="${'/assets/css/jquery.dataTables.min.css'}">
-    <link rel="stylesheet" type="text/css" th:href="${'/assets/css/buttons.dataTables.min.css'}">
-    <link rel="stylesheet" type="text/css" th:href="${'/assets/css/select.dataTables.min.css'}">
-    <link rel="stylesheet" type="text/css" th:href="${'/assets/css/editor.dataTables.min.css'}"/>
     <!-- template css -->
     <link rel="stylesheet" th:href="${'/assets/css/cassie.css'}">
 
@@ -54,17 +50,13 @@
 <!--include fragments/footer.html 底部-->
 <div th:replace="fragments/footer"></div>
 <!--引入js-->
-<script th:src="${'/lib/jquery/jquery.min.js'}"></script>
 <script th:src="${'/lib/bootstrap/js/bootstrap.bundle.min.js'}"></script>
 <script th:src="${'/lib/feather-icons/feather.min.js'}"></script>
 <script th:src="${'/lib/perfect-scrollbar/perfect-scrollbar.min.js'}"></script>
 <script th:src="${'/lib/js-cookie/js.cookie.js'}"></script>
 
 <script th:src="${'/assets/js/cassie.js'}"></script>
-<script type="text/javascript" language="javascript" th:src="${'/assets/js/jquery.dataTables.min.js'}"></script>
-<script type="text/javascript" language="javascript" th:src="${'/assets/js/dataTables.buttons.min.js'}"></script>
-<script type="text/javascript" language="javascript" th:src="${'/assets/js/dataTables.select.min.js'}"></script>
-<script th:src="${'/assets/js/dataTables.editor.min.js'}"></script>
+
 <script>
 <!--    用于保存点击的菜单-->
     $(function () {

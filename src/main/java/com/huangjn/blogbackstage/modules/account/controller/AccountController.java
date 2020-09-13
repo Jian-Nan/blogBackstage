@@ -1,4 +1,4 @@
-package com.huangjn.blogbackstage.modules.common.controller;
+package com.huangjn.blogbackstage.modules.account.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
