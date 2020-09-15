@@ -17,27 +17,27 @@
         <div>
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="#">Pages</a></li>
-                    <li class="breadcrumb-item"><a href="#">Extras</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Invoice Page</li>
+                    <li class="breadcrumb-item"><a href="#">页面</a></li>
+                    <li class="breadcrumb-item"><a href="#">角色管理</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">网站成员</li>
                 </ol>
             </nav>
-            <h4 class="content-title content-title-sm">Invoice Page</h4>
+            <h4 class="content-title content-title-sm">网站成员</h4>
         </div>
     </div><!-- content-header -->
     <div class="content-body">
         <div class="component-section">
-            <h5 id="section2" class="tx-semibold">Responsive DataTable</h5>
-            <p class="mg-b-25">Responsive is an extension for DataTables that resolves that problem by optimising the table's layout for different screen sizes through the dynamic insertion and removal of columns from the table.</p>
+            <h5 id="section2" class="tx-semibold">网站成员-数据表</h5>
+            <p class="mg-b-25">网站成员的基础信息</p>
 
             <table id="memberTable" class="table table-striped table-bordered">
                 <thead>
                 <tr>
-                    <th class="wd-20p">Name</th>
-                    <th class="wd-25p">Position</th>
-                    <th class="wd-20p">Office</th>
-                    <th class="wd-15p">Age</th>
-                    <th class="wd-20p">Salary</th>
+                    <th class="wd-20p">用户Id</th>
+                    <th class="wd-25p">用户名</th>
+                    <th class="wd-20p">密码</th>
+                    <th class="wd-15p">学校</th>
+                    <th class="wd-20p">操作</th>
                 </tr>
                 </thead>
 
@@ -111,7 +111,7 @@
                 searchVo.keyWord = data.search.value;
 
                 $.ajax({
-                    url : "/api/users",
+                    url : "/api/findAllUser",
                     type : "post",
                     contentType: "application/json",
                     data : JSON.stringify(searchVo),
@@ -137,8 +137,8 @@
                         var gearDatas = [];
                         for (var i = 0; i < rs.list.length; i++) {
                             //包装行数据
-                            var rowData = new TData(rs.list[i].userId, rs.list[i].userName,
-                                rs.list[i].password, rs.list[i].createDate);
+                            var rowData = new TData(rs.list[i].uid, rs.list[i].userName,
+                                rs.list[i].password, rs.list[i].school);
                             // 将行数据放到数组里
                             gearDatas.push(rowData);
                         }
@@ -153,8 +153,8 @@
                 });
             },
             "columns": [ //定义行数据字段
-                {data: 'uid', name: "u_id", sortable: true},
-                {data: 'userName', name: "user_name", sortable: true},
+                {data: 'uid', name: "uid", sortable: true},
+                {data: 'userName', name: "userName", sortable: true},
                 {data: 'password', name: "password", sortable: true},
                 {data: 'school', name: "school", sortable: true},
                 {data: 'operate', width: '80px', sortable: false}
@@ -169,8 +169,30 @@
         this.school = school;
         this.operate = function () {
             return "<a href='#' class='btn_editcolor' data-toggle='modal' data-target='#userEditModal' " +
-                "onclick='initEditModal(\"" + userId + "\")'>编辑</a>&nbsp;" +
-                "<a href='javascript:void(0);' onclick='deleteUser(\"" + userId + "\")' class='btn_editcolor'>删除</a>";
+                "onclick='initEditModal(\"" + uid + "\")'>编辑</a>&nbsp;" +
+                "<a href='javascript:void(0);' onclick='deleteUser(\"" + uid + "\")' class='btn_editcolor'>删除</a>";
         }
+    }
+
+    function deleteUser(uid) {
+        bootbox.confirm("Are you sure?", function (result) {
+            if (result) {
+                $.ajax({
+                    url: "/api/deleteUserById/" + uid,
+                    type: "delete",
+                    success: function (data) {
+                        if (data.status == 200) {
+                            initUserTable(DEFAULT_PAGE_SIZE);
+                        } else {
+                            window.location.href = data.object;
+                            // layer.msg(data.message, {icon: 0});
+                        }
+                    },
+                    error: function (data) {
+                        layer.msg(data.responseText, {icon: 0});
+                    }
+                });
+            }
+        });
     }
 </script>
