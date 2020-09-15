@@ -45,6 +45,8 @@
         </div>
     </div><!-- content-body -->
 
+<div th:replace="account/memberEdit"></div>
+
 <!-- import datatable js-->
 <!-- FastClick -->
 <script src="/plugin/fastclick/lib/fastclick.js"></script>
@@ -96,6 +98,31 @@
             'data-show-refresh': true,
             'ordering': true,
             'autoWidth': false,
+            //设置语言为中文
+            "language": {
+                "processing": "处理中...",
+                "lengthMenu": "每页显示 _MENU_ 项结果",
+                "zeroRecords": "没有匹配结果",
+                "info": "显示第 _START_ 至 _END_ 项结果，共 _TOTAL_ 项",
+                "infoEmpty": "显示第 0 至 0 项结果，共 0 项",
+                "infoFiltered": "(由 _MAX_ 项结果过滤)",
+                "infoPostFix": "",
+                "search": "搜索：",
+                "url": "",
+                "emptyTable": "表中数据为空",
+                "loadingRecords": "载入中...",
+                "infoThousands": ",",
+                "paginate": {
+                    "first": "首页",
+                    "previous": "上一页",
+                    "next": "下一页",
+                    "last": "尾页"
+                },
+                "aria": {
+                    "sortAscending": ": 以升序排列此列",
+                    "sortDescending": ": 以降序排列此列"
+                }
+            },
             "ajax": function (data, callback, settings) {
                 // 从data获取查询数据
                 var columIndex = data.order[0].column;
@@ -168,7 +195,8 @@
         this.password = password;
         this.school = school;
         this.operate = function () {
-            return "<a href='javascript:void(0);' onclick='deleteUser(\"" + uid + "\")' class='btn_editcolor'>删除</a>";
+            return "<a href='#' class='btn_editcolor' data-toggle='modal' data-target='#userEditModal' " +
+                "onclick='initEditModal(\"" + uid + "\")'>编辑</a>&nbsp;"+"<a href='javascript:void(0);' onclick='deleteUser(\"" + uid + "\")' class='btn_editcolor'>删除</a>";
         }
     }
 
@@ -190,6 +218,43 @@
                         layer.msg(data.responseText, {icon: 0});
                     }
                 });
+            }
+        });
+    }
+    function initRoles(rolesDivId) {
+        $.ajax({
+            url : "/api/roles",
+            type : "get",
+            success : function (rs) {
+                var rolesDiv = $("#" + rolesDivId);
+                $.each(rs, function(i, item) {
+                    rolesDiv.append("<input type='checkbox' value='"
+                        + item.rid + "'/>" + item.roleName + " ");
+                });
+            },
+            error : function (data) {
+                layer.alert(data.responseText, {icon: 0});
+            }
+        });
+    }
+
+    function initEditModal(uid) {
+        initRoles("rolesForEditPage", "roleElementForEdit");
+
+        $.ajax({
+            url : "/api/findUserByUid/" + uid,
+            type : "get",
+            success : function (rs) {
+                $("#userIdForEditPage").val(rs.uid);
+                $("#userNameForEditPage").val(rs.userName);
+                $("#userSchoolForEditPage").val(rs.school);
+                $.each(rs.roles, function(i, item){
+                    $("input[name='roleElementForEdit'][value=" + item.rid + "]")
+                        .attr("checked","checked");
+                });
+            },
+            error : function (data) {
+                layer.alert(data.responseText, {icon: 0});
             }
         });
     }

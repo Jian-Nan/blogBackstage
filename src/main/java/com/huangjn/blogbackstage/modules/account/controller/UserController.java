@@ -30,4 +30,10 @@ public class UserController {
         return userService.findAllAdministrators(searchVo);
     }
 
+    @GetMapping("/findUserByUid/{uid}")
+    User findUserByUid(@PathVariable int uid)
+    {
+        return userService.findUserByUid(uid);
+    }
+
 }

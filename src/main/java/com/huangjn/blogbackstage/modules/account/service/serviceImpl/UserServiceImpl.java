@@ -43,4 +43,9 @@ public class UserServiceImpl implements UserService {
                 Optional.ofNullable(userDao.findAllAdministrators(searchVo))
                         .orElse(Collections.emptyList()));
     }
+
+    @Override
+    public User findUserByUid(int uid) {
+        return userDao.findUserByUid(uid);
+    }
 }

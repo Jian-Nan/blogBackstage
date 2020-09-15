@@ -12,4 +12,6 @@ public interface UserService {
     Result<Object> deleteUserById(int uid);
 
     PageInfo<User> findAllAdministrators(SearchVo searchVo);
+
+    User findUserByUid(int uid);
 }

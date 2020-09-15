@@ -1,5 +1,7 @@
 package com.huangjn.blogbackstage.modules.account.pojo;
 
+import java.util.List;
+
 public class User {
     private int uid;
     private String account;
@@ -8,6 +10,9 @@ public class User {
     private String avatars;
     private String school;
     private String introduce;
+
+
+    private List<Role> roles;
 
     public int getUid() {
         return uid;
@@ -63,5 +68,13 @@ public class User {
 
     public void setIntroduce(String introduce) {
         this.introduce = introduce;
+    }
+
+    public List<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<Role> roles) {
+        this.roles = roles;
     }
 }

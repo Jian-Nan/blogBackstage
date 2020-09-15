@@ -55,4 +55,8 @@ public interface UserDao {
             "</script>"
     )
     List<User> findAllAdministrators(SearchVo searchVo);
+
+
+
+    User findUserByUid(int uid);
 }
