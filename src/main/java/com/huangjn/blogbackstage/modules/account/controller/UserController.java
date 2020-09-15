@@ -16,13 +16,18 @@ public class UserController {
     private UserService userService;
 
     @PostMapping("/findAllUser")
-    PageInfo<User> findAllUser(@RequestBody SearchVo searchVo){
+    PageInfo<User> findAllUser(@RequestBody SearchVo searchVo) {
         return userService.findAllUser(searchVo);
     }
 
     @DeleteMapping("/deleteUserById/{uid}")
-    Result<Object> deleteUserById(@PathVariable int uid)
-    {
+    Result<Object> deleteUserById(@PathVariable int uid) {
         return userService.deleteUserById(uid);
     }
+
+    @PostMapping("/findAllAdministrators")
+    PageInfo<User> findAllAdministrators(@RequestBody SearchVo searchVo) {
+        return userService.findAllAdministrators(searchVo);
+    }
+
 }

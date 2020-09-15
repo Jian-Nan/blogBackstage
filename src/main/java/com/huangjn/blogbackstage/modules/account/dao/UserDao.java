@@ -36,4 +36,23 @@ public interface UserDao {
     @Delete("delete from user where uid=#{uid}")
     void deleteUserById(int uid);
 
+    @Select("<script>"+
+            "select user.uid,userName,password,school from user join user_role userrole on user.uid=userrole.uid" +
+            "<where> " +
+            "userrole.rid=2"+
+            "<if test='keyWord != \"\" and keyWord != null'>" +
+            " and (userName like '%${keyWord}%') " +
+            "</if>" +
+            "</where>" +
+            "<choose>" +
+            "<when test='orderBy != \"\" and orderBy != null'>" +
+            " order by ${orderBy} ${sort}" +
+            "</when>" +
+            "<otherwise>" +
+            " order by uid desc" +
+            "</otherwise>" +
+            "</choose>"+
+            "</script>"
+    )
+    List<User> findAllAdministrators(SearchVo searchVo);
 }

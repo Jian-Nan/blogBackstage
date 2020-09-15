@@ -10,4 +10,6 @@ public interface UserService {
     PageInfo<User> findAllUser(SearchVo searchVo);
 
     Result<Object> deleteUserById(int uid);
+
+    PageInfo<User> findAllAdministrators(SearchVo searchVo);
 }

@@ -168,9 +168,7 @@
         this.password = password;
         this.school = school;
         this.operate = function () {
-            return "<a href='#' class='btn_editcolor' data-toggle='modal' data-target='#userEditModal' " +
-                "onclick='initEditModal(\"" + uid + "\")'>编辑</a>&nbsp;" +
-                "<a href='javascript:void(0);' onclick='deleteUser(\"" + uid + "\")' class='btn_editcolor'>删除</a>";
+            return "<a href='javascript:void(0);' onclick='deleteUser(\"" + uid + "\")' class='btn_editcolor'>删除</a>";
         }
     }
 

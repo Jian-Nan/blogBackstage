@@ -34,4 +34,13 @@ public class UserServiceImpl implements UserService {
         userDao.deleteUserById(uid);
         return new Result<>(Result.ResultStatus.SUCCESS.status, "Delete success.");
     }
+
+    @Override
+    public PageInfo<User> findAllAdministrators(SearchVo searchVo) {
+        searchVo.initSearchVo();
+        PageHelper.startPage(searchVo.getCurrentPage(),searchVo.getPageSize());
+        return new PageInfo<User>(
+                Optional.ofNullable(userDao.findAllAdministrators(searchVo))
+                        .orElse(Collections.emptyList()));
+    }
 }
