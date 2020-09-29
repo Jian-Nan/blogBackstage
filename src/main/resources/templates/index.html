@@ -26,6 +26,13 @@
 
     <link th:href="${'/plugin/bootstrap/css/bootstrap.min.css'}" rel="stylesheet" />
     <title>HuangJNBackstage</title>
+
+    <style type="text/css">
+        .tTable{
+            table-layout:fixed; /* bootstrap-table设置colmuns中某列的宽度无效时，需要给整个表设置css属性 */
+            word-break:break-all; word-wrap:break-all; /* 自动换行 */
+        }
+    </style>
 </head>
 
 <body>

@@ -4,6 +4,7 @@ import com.huangjn.blogbackstage.modules.account.pojo.User;
 import com.huangjn.blogbackstage.modules.common.vo.SearchVo;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Repository;
 
@@ -14,7 +15,7 @@ import java.util.List;
 public interface UserDao {
 
     @Select("<script>"+
-            "select uid,userName,password,school from user" +
+            "select uid,Account as account,userName,password,school from user" +
             "<where> " +
             "<if test='keyWord != \"\" and keyWord != null'>" +
             " and (userName like '%${keyWord}%') " +
@@ -57,6 +58,6 @@ public interface UserDao {
     List<User> findAllAdministrators(SearchVo searchVo);
 
 
-
-    User findUserByUid(int uid);
+    @Select("select uid,userName,password,school from user where uid=#{uid} ")
+    User findUserByUid(@Param("uid") int uid);
 }
