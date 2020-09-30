@@ -34,7 +34,7 @@
         <!--            新增用户-->
         <div class="clearfix">
             <ul class="nav navbar-right panel_toolbox" style="margin-left:0; float: left;">
-                <button id="addRoleBtn" type="button" class="btn btn-primary"
+                <button id="addUserBtn" type="button" class="btn btn-primary"
                         data-toggle="modal" data-target="#addMemberModal">新增
                 </button>
                 </li>
@@ -82,16 +82,18 @@
 
 <script>
     var DEFAULT_PAGE_SIZE = 5;
+    var addMemberJudge=1;
+    var editMemberJudge=1;
     $(document).ready(function () {
         initUserTable(DEFAULT_PAGE_SIZE);
 
-        // $("#addUserBtn").bind("click", function() {
-        //     intAddModal();
-        // });
+        $("#addUserBtn").bind("click", function() {
+            intAddModal();
+        });
         //
-        // $("#insertUserBtn").bind("click", function() {
-        //     addUser();
-        // });
+        $("#addMember").bind("click", function() {
+            addUser();
+        });
         //
         $("#editUserBtn").bind("click", function () {
             editUser();
@@ -225,10 +227,11 @@
                     type: "delete",
                     success: function (data) {
                         if (data.status == 200) {
+                            layer.alert(data.message, {icon: 1});
                             initUserTable(DEFAULT_PAGE_SIZE);
                         } else {
                             window.location.href = data.object;
-                            // layer.msg(data.message, {icon: 0});
+                            //layer.msg(data.message, {icon: 0});
                         }
                     },
                     error: function (data) {
@@ -239,16 +242,17 @@
         });
     }
 
-    function initRoles(rolesDivId) {
+    function initRoles(rolesDivId,rolesName) {
         $.ajax({
             url: "/api/roles",
             type: "get",
             success: function (rs) {
                 var rolesDiv = $("#" + rolesDivId);
-                $.each(rs, function (i, item) {
-                    rolesDiv.append("<input type='checkbox' value='"
-                        + item.rid + "'/>" + item.roleName + " ");
-                });
+                rolesDiv.html("");
+                    $.each(rs, function (i, item) {
+                        rolesDiv.append("<input type='checkbox' name='"+rolesName+"' value='"
+                            + item.rid + "'/>" + item.roleName + " ");
+                    });
             },
             error: function (data) {
                 layer.alert(data.responseText, {icon: 0});
@@ -264,6 +268,7 @@
             type: "get",
             success: function (rs) {
                 $("#userIdForEditPage").val(rs.uid);
+                $("#userAccount").val(rs.account);
                 $("#userNameForEditPage").val(rs.userName);
                 $("#userSchoolForEditPage").val(rs.school);
                 $.each(rs.roles, function (i, item) {
@@ -272,6 +277,85 @@
                 });
             },
             error: function (data) {
+                layer.alert(data.responseText, {icon: 0});
+            }
+        });
+    }
+
+    // 添加用户
+    function addUser() {
+        var user = {};
+        user.account=$("#addAccount").val();
+        user.userName = $("#addUserName").val();
+        user.password = $("#addPassword").val();
+        user.school = $("#addSchool").val();
+        var roles = new Array();
+        $.each($("input[name='roleElementForAdd']"), function(){
+            if(this.checked){
+                var role = {};
+                role.rid = $(this).val();
+                roles.push(role);
+            }
+        });
+        user.roles = roles;
+
+        $.ajax({
+            url : "/api/insertUser",
+            type : "post",
+            contentType: "application/json",
+            data : JSON.stringify(user),
+            success : function (rs) {
+                if (rs.status == 200) {
+                    alert(rs.message);
+                    initUserTable(DEFAULT_PAGE_SIZE);
+                } else {
+                    // layer.alert(rs.messgae, {icon: 0});
+                    alert(rs.message);
+                }
+            },
+            error : function (data) {
+                layer.alert(data.responseText, {icon: 0});
+            }
+        });
+    }
+
+    function intAddModal() {
+        $("#addAccount").val("");
+        $("#addUserName").val("");
+        $("#addPassword").val("");
+        $("#addSchool").val("");
+        initRoles("rolesForAddPage", "roleElementForAdd");
+    }
+
+    function editUser() {
+        var user = {};
+        user.uid = $("#userIdForEditPage").val();
+        // user.userName = $("#userNameForEditPage").val();
+        // user.userImg = $("#userImgForEditPage").val();
+        var roles = new Array();
+        $.each($("input[name='roleElementForEdit']"), function(){
+            if(this.checked){
+                var role = {};
+                role.rid = $(this).val();
+                roles.push(role);
+            }
+        });
+        user.roles = roles;
+
+        $.ajax({
+            url : "/api/editUserRole",
+            type : "put",
+            contentType: "application/json",
+            data : JSON.stringify(user),
+            success : function (rs) {
+                if (rs.status == 200) {
+                    alert(rs.message);
+                    initUserTable(DEFAULT_PAGE_SIZE);
+                } else {
+                    layer.alert(rs.messgae, {icon: 0});
+                }
+            },
+            error : function (data) {
                 layer.alert(data.responseText, {icon: 0});
             }
         });

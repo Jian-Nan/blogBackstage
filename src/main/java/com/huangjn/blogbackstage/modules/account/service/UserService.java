@@ -14,4 +14,8 @@ public interface UserService {
     PageInfo<User> findAllAdministrators(SearchVo searchVo);
 
     User findUserByUid(int uid);
+
+    Result<User> insertUser(User user);
+
+    Result<User> editUserRole(User user);
 }

@@ -2,10 +2,7 @@ package com.huangjn.blogbackstage.modules.account.dao;
 
 import com.huangjn.blogbackstage.modules.account.pojo.User;
 import com.huangjn.blogbackstage.modules.common.vo.SearchVo;
-import org.apache.ibatis.annotations.Delete;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -18,7 +15,7 @@ public interface UserDao {
             "select uid,Account as account,userName,password,school from user" +
             "<where> " +
             "<if test='keyWord != \"\" and keyWord != null'>" +
-            " and (userName like '%${keyWord}%') " +
+            " and (Account like '%${keyWord}%') " +
             "</if>" +
             "</where>" +
             "<choose>" +
@@ -42,7 +39,7 @@ public interface UserDao {
             "<where> " +
             "userrole.rid=2"+
             "<if test='keyWord != \"\" and keyWord != null'>" +
-            " and (userName like '%${keyWord}%') " +
+            " and (Account like '%${keyWord}%') " +
             "</if>" +
             "</where>" +
             "<choose>" +
@@ -58,6 +55,16 @@ public interface UserDao {
     List<User> findAllAdministrators(SearchVo searchVo);
 
 
-    @Select("select uid,userName,password,school from user where uid=#{uid} ")
+    @Select("select uid,Account as account,userName,password,school from user where uid=#{uid} ")
     User findUserByUid(@Param("uid") int uid);
+
+
+    @Insert("insert into user (Account, userName, password, school) " +
+            "values (#{account}, #{userName}, #{password}, #{school})")
+    @Options(useGeneratedKeys = true, keyColumn = "uid", keyProperty = "uid")
+    void insertUser(User user);
+
+
+    @Select("select uid,Account as account,userName,password,school from user where Account=#{account}")
+    User getUserByUserAccount(String account);
 }

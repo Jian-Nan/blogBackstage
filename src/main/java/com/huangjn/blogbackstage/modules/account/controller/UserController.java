@@ -31,9 +31,18 @@ public class UserController {
     }
 
     @GetMapping("/findUserByUid/{uid}")
-    User findUserByUid(@PathVariable int uid)
-    {
+    User findUserByUid(@PathVariable int uid) {
         return userService.findUserByUid(uid);
     }
 
+    @PostMapping("/insertUser")
+    Result<User> insertUser(@RequestBody User user) {
+        return userService.insertUser(user);
+    }
+
+    @PutMapping("/editUserRole")
+    Result<User> editUserRole(@RequestBody User user)
+    {
+        return userService.editUserRole(user);
+    }
 }
