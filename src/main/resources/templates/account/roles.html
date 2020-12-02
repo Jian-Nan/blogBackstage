@@ -49,7 +49,8 @@
 
     </div>
 </div><!-- content-body -->
-
+<div th:replace="account/roleEdit"></div>
+<div th:replace="account/rolesAdd"></div>
 <!-- import datatable js-->
 <!-- FastClick -->
 <script src="/plugin/fastclick/lib/fastclick.js"></script>
@@ -76,9 +77,9 @@
     $(document).ready(function () {
         initUserTable(DEFAULT_PAGE_SIZE);
 
-        // $("#addUserBtn").bind("click", function() {
-        //     intAddModal();
-        // });
+        $("#addRole").bind("click", function() {
+            addRole();
+        });
         //
         // $("#insertUserBtn").bind("click", function() {
         //     addUser();
@@ -222,5 +223,26 @@
                 });
             }
         });
+    }
+    function addRole() {
+        var roleName=$("#roleName").val();
+        $.ajax({
+            url : "/api/insertRole",
+            type : "post",
+            contentType: "application/json",
+            data : roleName,
+            success : function (rs) {
+                if (rs.status == 200) {
+                    alert(rs.message);
+                    initUserTable(DEFAULT_PAGE_SIZE);
+                } else {
+                    // layer.alert(rs.messgae, {icon: 0});
+                    alert(rs.message);
+                }
+            },
+            error : function (data) {
+                layer.alert(data.responseText, {icon: 0});
+            }
+        })
     }
 </script>

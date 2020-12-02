@@ -6,6 +6,7 @@ import com.huangjn.blogbackstage.modules.account.dao.RoleDao;
 import com.huangjn.blogbackstage.modules.account.pojo.Role;
 import com.huangjn.blogbackstage.modules.account.pojo.User;
 import com.huangjn.blogbackstage.modules.account.service.RoleService;
+import com.huangjn.blogbackstage.modules.common.vo.Result;
 import com.huangjn.blogbackstage.modules.common.vo.SearchVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,5 +33,11 @@ public class RoleServiceImpl implements RoleService {
     @Override
     public List<Role> getRoles() {
         return roleDao.getRoles();
+    }
+
+    @Override
+    public Result<User> insertRole(String roleName) {
+        roleDao.insertRole(roleName);
+        return new Result<User>(Result.ResultStatus.SUCCESS.status, "添加成功.");
     }
 }

@@ -15,7 +15,7 @@ public interface UserDao {
             "select uid,Account as account,userName,password,school from user" +
             "<where> " +
             "<if test='keyWord != \"\" and keyWord != null'>" +
-            " and (Account like '%${keyWord}%') " +
+            " and (Account like '%${keyWord}%') or (userName like '%${keyWord}%') " +
             "</if>" +
             "</where>" +
             "<choose>" +
@@ -35,7 +35,7 @@ public interface UserDao {
     void deleteUserById(int uid);
 
     @Select("<script>"+
-            "select user.uid,userName,password,school from user join user_role userrole on user.uid=userrole.uid" +
+            "select user.uid,Account,userName,password,school from user join user_role userrole on user.uid=userrole.uid" +
             "<where> " +
             "userrole.rid=2"+
             "<if test='keyWord != \"\" and keyWord != null'>" +
