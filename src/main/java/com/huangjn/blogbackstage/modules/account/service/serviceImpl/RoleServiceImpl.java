@@ -40,4 +40,16 @@ public class RoleServiceImpl implements RoleService {
         roleDao.insertRole(roleName);
         return new Result<User>(Result.ResultStatus.SUCCESS.status, "添加成功.");
     }
+
+    @Override
+    public Result<User> deleteRoleById(int rid) {
+        roleDao.deleteRoleById(rid);
+        return new Result<User>(Result.ResultStatus.SUCCESS.status, "删除成功.");
+    }
+
+    @Override
+    public Role findRoleByRid(int rid) {
+        Role role=roleDao.findRoleByRid(rid);
+        return role;
+    }
 }

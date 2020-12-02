@@ -14,4 +14,8 @@ public interface RoleService {
     List<Role> getRoles();
 
     Result<User> insertRole(String roleName);
+
+    Result<User> deleteRoleById(int rid);
+
+    Role findRoleByRid(int rid);
 }

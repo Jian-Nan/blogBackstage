@@ -39,7 +39,7 @@ public interface UserDao {
             "<where> " +
             "userrole.rid=2"+
             "<if test='keyWord != \"\" and keyWord != null'>" +
-            " and (Account like '%${keyWord}%') " +
+            " and (Account like '%${keyWord}%') or (userName like '%${keyWord}%')" +
             "</if>" +
             "</where>" +
             "<choose>" +

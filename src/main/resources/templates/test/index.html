@@ -257,12 +257,7 @@
             type : "get",
             success : function (rs) {
                 $("#userIdForEditPage").val(rs.userId);
-                $("#userNameForEditPage").val(rs.userName);
-                $("#userImgForEditPage").val(rs.userImg);
-                $.each(rs.roles, function(i, item){
-                    $("input[name='roleElementForEdit'][value=" + item.roleId + "]")
-                        .attr("checked","checked");
-                });
+
             },
             error : function (data) {
                 layer.alert(data.responseText, {icon: 0});

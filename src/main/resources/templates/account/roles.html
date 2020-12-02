@@ -197,17 +197,17 @@
         this.rid = rid;
         this.roleName = roleName;
         this.operate = function () {
-            return "<a href='#' class='btn_editcolor' data-toggle='modal' data-target='#userEditModal' " +
-                "onclick='initEditModal(\"" + rid + "\")'>编辑</a>&nbsp;" + "<a href='javascript:void(0);' onclick='deleteUser(\"" + rid + "\")' class='btn_editcolor'>删除</a>";
+            return "<a href='#' class='btn_editcolor' data-toggle='modal' data-target='#roleEditModal' " +
+                "onclick='initEditModal(\"" + rid + "\")'>编辑</a>&nbsp;" + "<a href='javascript:void(0);' onclick='deleteRole(\"" + rid + "\")' class='btn_editcolor'>删除</a>";
 
         }
     }
 
-    function deleteUser(uid) {
+    function deleteRole(rid) {
         bootbox.confirm("Are you sure?", function (result) {
             if (result) {
                 $.ajax({
-                    url: "/api/deleteUserById/" + uid,
+                    url: "/api/deleteRoleById/" + rid,
                     type: "delete",
                     success: function (data) {
                         if (data.status == 200) {
@@ -244,5 +244,18 @@
                 layer.alert(data.responseText, {icon: 0});
             }
         })
+    }
+    function initEditModal(rid) {
+        $.ajax({
+            url: "/api/findRoleByRid/" + rid,
+            type: "get",
+            success: function (rs) {
+                $("#roleIdForEditPage").val(rs.rid);
+                $("#roleNameForEditPage").val(rs.roleName);
+            },
+            error: function (data) {
+                layer.alert(data.responseText, {icon: 0});
+            }
+        });
     }
 </script>

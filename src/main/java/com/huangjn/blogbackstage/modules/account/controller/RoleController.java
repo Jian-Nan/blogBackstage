@@ -34,4 +34,14 @@ public class RoleController {
     Result<User> insertRole(@RequestBody String roleName) {
         return roleService.insertRole(roleName);
     }
+
+    @DeleteMapping("/deleteRoleById/{rid}")
+    Result<User> deleteRoleById(@PathVariable int rid) {
+        return roleService.deleteRoleById(rid);
+    }
+
+    @GetMapping("/findRoleByRid/{rid}")
+    Role findUserByUid(@PathVariable int rid) {
+        return roleService.findRoleByRid(rid);
+    }
 }

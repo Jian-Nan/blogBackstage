@@ -2,6 +2,7 @@ package com.huangjn.blogbackstage.modules.account.dao;
 
 import com.huangjn.blogbackstage.modules.account.pojo.Role;
 import com.huangjn.blogbackstage.modules.common.vo.SearchVo;
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
@@ -36,6 +37,13 @@ public interface RoleDao {
     @Select("select rid,roleName from role")
     List<Role> getRoles();
 
-    @Insert("insert into role(roleName) values(#{roleName})")
+    @Insert("insert into role(roleName) values(#{roleName}) ")
     void insertRole(String roleName);
+
+
+    @Delete("delete from role where rid=#{rid}")
+    void deleteRoleById(int rid);
+
+    @Select("select rid,roleName from role where rid=#{rid}")
+    Role findRoleByRid(int rid);
 }
