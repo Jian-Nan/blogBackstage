@@ -31,8 +31,8 @@
         <!--        <p class="mg-b-25">权限管理</p>-->
         <div class="clearfix">
             <ul class="nav navbar-right panel_toolbox" style="margin-left:0; float: left;">
-                <button id="addRoleBtn" type="button" class="btn btn-primary"
-                        data-toggle="modal" data-target="#addRoleModal">新增
+                <button id="addPermissionBtn" type="button" class="btn btn-primary"
+                        data-toggle="modal" data-target="#addPermissionModal">新增
                 </button>
                 </li>
             </ul>
@@ -51,8 +51,8 @@
 
     </div>
 </div><!-- content-body -->
-<div th:replace="account/roleEdit"></div>
-<div th:replace="account/rolesAdd"></div>
+<div th:replace="account/permissionEdit"></div>
+<div th:replace="account/permissionAdd"></div>
 <!-- import datatable js-->
 <!-- FastClick -->
 <script src="/plugin/fastclick/lib/fastclick.js"></script>
@@ -77,22 +77,22 @@
 <script>
     var DEFAULT_PAGE_SIZE = 5;
     $(document).ready(function () {
-        initUserTable(DEFAULT_PAGE_SIZE);
+        initPermissionTable(DEFAULT_PAGE_SIZE);
 
-        $("#addRole").bind("click", function() {
-            addRole();
+        $("#addPermissionBtn").bind("click", function() {
+            initaddPermission();
         });
         //
-        // $("#insertUserBtn").bind("click", function() {
-        //     addUser();
-        // });
+        $("#addPermission").bind("click", function() {
+            addPermission();
+        });
         //
         // $("#editUserBtn").bind("click", function() {
         //     editUser();
         // });
     });
 
-    function initUserTable(pageSize) {
+    function initPermissionTable(pageSize) {
         $('#memberTable').DataTable({
             'paging': true, //分页
             "serverSide": true, //开启后端分页
@@ -201,12 +201,69 @@
         this.pid = pid;
         this.permissionName = permissionName;
         this.permissionUrl = permissionUrl;
-        this.roleName = roleName;
+        this.roleName =roleName;
         this.operate = function () {
-            return "<a href='#' class='btn_editcolor' data-toggle='modal' data-target='#roleEditModal' " +
+            return "<a href='#' class='btn_editcolor' data-toggle='modal' data-target='#permissionEditModal' " +
                 "onclick='initEditModal(\"" + pid + "\")'>编辑</a>&nbsp;" + "<a href='javascript:void(0);' onclick='deleteRole(\"" + pid + "\")' class='btn_editcolor'>删除</a>";
 
         }
     }
+    function initRoles(rolesDivId,rolesName) {
+        $.ajax({
+            url: "/api/roles",
+            type: "get",
+            success: function (rs) {
+                var rolesDiv = $("#" + rolesDivId);
+                rolesDiv.html("");
+                $.each(rs, function (i, item) {
+                    rolesDiv.append("<input type='checkbox' name='"+rolesName+"' value='"
+                        + item.rid + "'/>" + item.roleName + " ");
+                });
+            },
+            error: function (data) {
+                layer.alert(data.responseText, {icon: 0});
+            }
+        });
+    }
+    //初始化权限添加模块
+    function initaddPermission() {
+        $("#addPermissionName").val("");
+        $("#addPermissionUrl").val("");
+        initRoles("rolesForAddPage", "roleElementForAdd");
+    }
+    //添加权限
+    function addPermission() {
 
+        var permission = {};
+        permission.permissionName=$("#addPermissionName").val();
+        permission.permissionUrl = $("#addPermissionUrl").val();
+        var roles = new Array();
+        $.each($("input[name='roleElementForAdd']"), function(){
+            if(this.checked){
+                var role = {};
+                role.rid = $(this).val();
+                roles.push(role);
+            }
+        });
+        permission.roles = roles;
+
+        $.ajax({
+            url : "/api/insertPermission",
+            type : "post",
+            contentType: "application/json",
+            data : JSON.stringify(permission),
+            success : function (rs) {
+                if (rs.status == 200) {
+                    alert(rs.message);
+                    initPermissionTable(DEFAULT_PAGE_SIZE);
+                } else {
+                    // layer.alert(rs.messgae, {icon: 0});
+                    alert(rs.message);
+                }
+            },
+            error : function (data) {
+                layer.alert(data.responseText, {icon: 0});
+            }
+        })
+    }
 </script>

@@ -2,6 +2,7 @@ package com.huangjn.blogbackstage.modules.account.dao;
 
 import com.huangjn.blogbackstage.modules.account.pojo.Permission;
 import com.huangjn.blogbackstage.modules.common.vo.SearchVo;
+import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Repository;
@@ -30,4 +31,8 @@ public interface PermissionDao {
             "</script>"
     )
     List<Permission>  getPermissionBySearchVo(SearchVo searchVo);
+
+
+    @Insert("insert into permission(permissionName,permissionUrl,roleName) values(#{permissionName},#{permissionUrl},#{roleName})")
+    void insertPermission(Permission permission);
 }
