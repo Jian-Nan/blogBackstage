@@ -38,4 +38,10 @@ public interface PermissionDao {
 
     @Delete("delete from permission where pid=#{pid}")
     void deletePermissionById(int pid);
+
+    @Select("select pid,permissionName ,permissionUrl from permission where pid=#{pid}")
+    Permission findPermissionByPid(int pid);
+
+    @Update("update permission set roleName=#{roleName} where pid=#{pid}")
+    void updatePermission(Permission permission);
 }

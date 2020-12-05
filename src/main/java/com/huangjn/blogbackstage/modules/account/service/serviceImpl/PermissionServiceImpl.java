@@ -63,4 +63,36 @@ public class PermissionServiceImpl implements PermissionService {
 
         return new Result<Object>(Result.ResultStatus.SUCCESS.status, "删除成功.");
     }
+
+    @Override
+    public Permission findPermissionByPid(int pid) {
+        Permission permission=permissionDao.findPermissionByPid(pid);
+        List<Role> roles=permissionRoleDao.findPermissRoleionByPid(pid);
+        permission.setRoles(roles);
+        return permission;
+    }
+
+    @Override
+    public Result<Object> editPermissionRole(Permission permission) {
+        int pid=permission.getPid();
+        String roleName = "";
+        List<Role> roles=permission.getRoles();
+        if(roles!=null)
+        {
+            roleName+= roles.get(0).getRoleName();
+        }
+        for(int i=1;i<roles.size();i++)
+        {
+            roleName+= ","+roles.get(i).getRoleName();
+        }
+        permission.setRoleName(roleName);
+        permissionDao.updatePermission(permission);
+        permissionRoleDao.deletePermissionById(pid);
+        for(Role r:roles)
+        {
+            permissionRoleDao.insertPermissionRole(pid,r.getRid());
+        }
+
+        return new Result<Object>(Result.ResultStatus.SUCCESS.status, "修改成功.");
+    }
 }

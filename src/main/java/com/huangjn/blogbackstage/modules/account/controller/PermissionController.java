@@ -32,4 +32,13 @@ public class PermissionController {
     {
         return permissionService.deletePermissionById(pid);
     }
+    @GetMapping("/findPermissionByPid/{pid}")
+    Permission findPermissionByPid(@PathVariable int pid)
+    {
+        return permissionService.findPermissionByPid(pid);
+    }
+    @PostMapping("/editPermissionRole")
+    Result<Object> editPermissionRole(@RequestBody Permission permission){
+        return permissionService.editPermissionRole(permission);
+    }
 }

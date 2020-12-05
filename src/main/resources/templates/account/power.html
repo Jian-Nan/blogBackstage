@@ -82,14 +82,14 @@
         $("#addPermissionBtn").bind("click", function() {
             initaddPermission();
         });
-        //
+        //添加权限
         $("#addPermission").bind("click", function() {
             addPermission();
         });
-        //
-        // $("#editUserBtn").bind("click", function() {
-        //     editUser();
-        // });
+        //修改权限
+        $("#editPermissionBtn").bind("click", function() {
+            editPermission();
+        });
     });
 
     function initPermissionTable(pageSize) {
@@ -287,6 +287,62 @@
                         layer.msg(data.responseText, {icon: 0});
                     }
                 });
+            }
+        });
+    }
+    //初始化修改框的内容
+    function initEditModal(pid) {
+        initRoles("rolesForEditPage", "roleElementForEdit");
+
+        $.ajax({
+            url: "/api/findPermissionByPid/" + pid,
+            type: "get",
+            success: function (rs) {
+                $("#permissionIdForEditPage").val(rs.pid);
+                $("#editPermissionName").val(rs.permissionName);
+                $("#editPermissionUrl").val(rs.permissionUrl);
+                $.each(rs.roles, function (i, item) {
+                    $("input[name='roleElementForEdit'][value=" + item.rid + "]")
+                        .attr("checked", "checked");
+                });
+            },
+            error: function (data) {
+                layer.alert(data.responseText, {icon: 0});
+            }
+        });
+    }
+    //修改权限
+    function  editPermission() {
+        var permission = {};
+        permission.pid=$("#permissionIdForEditPage").val();
+        permission.permissionName=$("#editPermissionName").val();
+        permission.permissionUrl = $("#editPermissionUrl").val();
+        var roles = new Array();
+        $.each($("input[name='roleElementForEdit']"), function(){
+            if(this.checked){
+                var role = {};
+                role.rid = $(this).val();
+                role.roleName=this.nextSibling.data;
+                roles.push(role);
+            }
+        });
+        permission.roles = roles;
+
+        $.ajax({
+            url : "/api/editPermissionRole",
+            type : "post",
+            contentType: "application/json",
+            data : JSON.stringify(permission),
+            success : function (rs) {
+                if (rs.status == 200) {
+                    alert(rs.message);
+                    initPermissionTable(DEFAULT_PAGE_SIZE);
+                } else {
+                    layer.alert(rs.messgae, {icon: 0});
+                }
+            },
+            error : function (data) {
+                layer.alert(data.responseText, {icon: 0});
             }
         });
     }

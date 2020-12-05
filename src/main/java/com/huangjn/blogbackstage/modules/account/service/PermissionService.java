@@ -11,4 +11,8 @@ public interface PermissionService {
     Result<Permission> insertPermission(Permission permission);
 
     Result<Object> deletePermissionById(int pid);
+
+    Permission findPermissionByPid(int pid);
+
+    Result<Object> editPermissionRole(Permission permission);
 }

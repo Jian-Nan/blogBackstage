@@ -4,7 +4,7 @@
         <div class="modal-content">
 
             <div class="modal-header">
-                <h4 class="modal-title" id="myModalLabel">User Edit</h4>
+                <h4 class="modal-title" id="myModalLabel">Permission Edit</h4>
                 <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span>
                 </button>
             </div>
@@ -12,35 +12,28 @@
             <div class="modal-body">
                 <form class="form-horizontal">
                     <div class="form-group row">
-                        <label class="control-label col-md-3">用户Id</label>
+                        <label class="control-label col-md-3">权限Id</label>
                         <div class="col-md-8">
-                            <input id="userIdForEditPage" name="userId" class="form-control"
+                            <input id="permissionIdForEditPage" name="userId" class="form-control"
                                    type="text" readonly/>
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label class="control-label col-md-3">用户账号</label>
+                        <label class="control-label col-md-3">权限名字</label>
                         <div class="col-md-8">
-                            <input id="userAccount" name="userName" class="form-control"
+                            <input id="editPermissionName" name="userName" class="form-control"
                                    type="text" readonly>
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label class="control-label col-md-3">用户名</label>
+                        <label class="control-label col-md-3">权限路径</label>
                         <div class="col-md-8">
-                            <input id="userNameForEditPage" name="userName" class="form-control"
+                            <input id="editPermissionUrl" name="userName" class="form-control"
                                    type="text" readonly>
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label class="control-label col-md-3">学校</label>
-                        <div class="col-md-8">
-                            <input id="userSchoolForEditPage" name="school" class="form-control"
-                                   type="text" readonly>
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label class="control-label col-md-3">Roles</label>
+                        <label class="control-label col-md-3">所属角色</label>
                         <div class="col-md-8" id="rolesForEditPage" name="roles"></div>
                     </div>
                 </form>
@@ -48,7 +41,7 @@
 
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button id="editUserBtn" type="button" class="btn btn-primary" data-dismiss="modal">Save changes</button>
+                <button id="editPermissionBtn" type="button" class="btn btn-primary" data-dismiss="modal">Save changes</button>
             </div>
 
         </div>
