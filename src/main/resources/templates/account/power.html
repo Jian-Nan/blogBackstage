@@ -204,7 +204,7 @@
         this.roleName =roleName;
         this.operate = function () {
             return "<a href='#' class='btn_editcolor' data-toggle='modal' data-target='#permissionEditModal' " +
-                "onclick='initEditModal(\"" + pid + "\")'>编辑</a>&nbsp;" + "<a href='javascript:void(0);' onclick='deleteRole(\"" + pid + "\")' class='btn_editcolor'>删除</a>";
+                "onclick='initEditModal(\"" + pid + "\")'>编辑</a>&nbsp;" + "<a href='javascript:void(0);' onclick='deletePermission(\"" + pid + "\")' class='btn_editcolor'>删除</a>";
 
         }
     }
@@ -242,6 +242,7 @@
             if(this.checked){
                 var role = {};
                 role.rid = $(this).val();
+                role.roleName=this.nextSibling.data;
                 roles.push(role);
             }
         });
@@ -265,5 +266,28 @@
                 layer.alert(data.responseText, {icon: 0});
             }
         })
+    }
+    //删除权限
+    function deletePermission(pid) {
+        bootbox.confirm("Are you sure?", function (result) {
+            if (result) {
+                $.ajax({
+                    url: "/api/deletePermissionById/" + pid,
+                    type: "delete",
+                    success: function (data) {
+                        if (data.status == 200) {
+                            layer.alert(data.message, {icon: 1});
+                            initPermissionTable(DEFAULT_PAGE_SIZE);
+                        } else {
+                            window.location.href = data.object;
+                            //layer.msg(data.message, {icon: 0});
+                        }
+                    },
+                    error: function (data) {
+                        layer.msg(data.responseText, {icon: 0});
+                    }
+                });
+            }
+        });
     }
 </script>

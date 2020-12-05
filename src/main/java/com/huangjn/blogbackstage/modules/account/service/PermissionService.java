@@ -9,4 +9,6 @@ public interface PermissionService {
     PageInfo<Permission> findAllPermission(SearchVo searchVo);
 
     Result<Permission> insertPermission(Permission permission);
+
+    Result<Object> deletePermissionById(int pid);
 }

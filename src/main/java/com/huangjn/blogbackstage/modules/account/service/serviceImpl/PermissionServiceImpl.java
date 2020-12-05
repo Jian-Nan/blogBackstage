@@ -3,6 +3,7 @@ package com.huangjn.blogbackstage.modules.account.service.serviceImpl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.huangjn.blogbackstage.modules.account.dao.PermissionDao;
+import com.huangjn.blogbackstage.modules.account.dao.PermissionRoleDao;
 import com.huangjn.blogbackstage.modules.account.pojo.Permission;
 import com.huangjn.blogbackstage.modules.account.pojo.Role;
 import com.huangjn.blogbackstage.modules.account.service.PermissionService;
@@ -21,6 +22,9 @@ public class PermissionServiceImpl implements PermissionService {
     @Autowired
     PermissionDao permissionDao;
 
+    @Autowired
+    PermissionRoleDao permissionRoleDao;
+
     @Override
     public PageInfo<Permission> findAllPermission(SearchVo searchVo) {
         searchVo.initSearchVo();
@@ -32,18 +36,31 @@ public class PermissionServiceImpl implements PermissionService {
 
     @Override
     public Result<Permission> insertPermission(Permission permission) {
-        String permissionName = "";
+        String roleName = "";
         List<Role> roles=permission.getRoles();
         if(roles!=null)
         {
-            permissionName+= roles.get(0).getRoleName();
+            roleName+= roles.get(0).getRoleName();
         }
         for(int i=1;i<roles.size();i++)
         {
-            permissionName+= ","+roles.get(i).getRoleName();
+            roleName+= ","+roles.get(i).getRoleName();
         }
-        permission.setPermissionName(permissionName);
+        permission.setRoleName(roleName);
         permissionDao.insertPermission(permission);
+        int pid = permission.getPid();
+        for(Role r:roles)
+        {
+            permissionRoleDao.insertPermissionRole(pid,r.getRid());
+        }
         return new Result<Permission>(Result.ResultStatus.SUCCESS.status, "添加成功.");
+    }
+
+    @Override
+    public Result<Object> deletePermissionById(int pid) {
+        permissionDao.deletePermissionById(pid);
+        permissionRoleDao.deletePermissionById(pid);
+
+        return new Result<Object>(Result.ResultStatus.SUCCESS.status, "删除成功.");
     }
 }

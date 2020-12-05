@@ -2,9 +2,7 @@ package com.huangjn.blogbackstage.modules.account.dao;
 
 import com.huangjn.blogbackstage.modules.account.pojo.Permission;
 import com.huangjn.blogbackstage.modules.common.vo.SearchVo;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -34,5 +32,10 @@ public interface PermissionDao {
 
 
     @Insert("insert into permission(permissionName,permissionUrl,roleName) values(#{permissionName},#{permissionUrl},#{roleName})")
+    @Options(useGeneratedKeys = true, keyColumn = "pid", keyProperty = "pid")
     void insertPermission(Permission permission);
+
+
+    @Delete("delete from permission where pid=#{pid}")
+    void deletePermissionById(int pid);
 }

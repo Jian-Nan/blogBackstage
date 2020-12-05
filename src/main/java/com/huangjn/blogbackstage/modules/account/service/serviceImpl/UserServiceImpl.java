@@ -38,6 +38,7 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public Result<Object> deleteUserById(int uid) {
         userDao.deleteUserById(uid);
+        userRoleDao.deleteByUid(uid);
         return new Result<>(Result.ResultStatus.SUCCESS.status, "删除成功.");
     }
 
@@ -69,8 +70,6 @@ public class UserServiceImpl implements UserService {
 
         userDao.insertUser(user);
         int uid = user.getUid();
-        userRoleDao.deleteByUid(uid);
-
         List<Role> roles = user.getRoles();
 
         for (Role r : roles)

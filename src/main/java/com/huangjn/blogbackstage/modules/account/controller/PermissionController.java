@@ -7,10 +7,7 @@ import com.huangjn.blogbackstage.modules.account.service.PermissionService;
 import com.huangjn.blogbackstage.modules.common.vo.Result;
 import com.huangjn.blogbackstage.modules.common.vo.SearchVo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api")
@@ -28,5 +25,11 @@ public class PermissionController {
     Result<Permission> insertPermission(@RequestBody Permission permission)
     {
         return permissionService.insertPermission(permission);
+    }
+
+    @DeleteMapping("/deletePermissionById/{pid}")
+    Result<Object> deletePermissionById(@PathVariable int pid)
+    {
+        return permissionService.deletePermissionById(pid);
     }
 }
