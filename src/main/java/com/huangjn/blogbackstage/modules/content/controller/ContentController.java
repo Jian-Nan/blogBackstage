@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("/content")
 public class ContentController {
-    @GetMapping("/knowledge")
+    @GetMapping("/article")
     public String knowledge()
     {
         return "index";

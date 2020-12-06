@@ -1,0 +1,53 @@
+<div id="addMemberModal" class="modal fade bs-example-modal-lg"
+     tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h4 class="modal-title" id="myModalLabel">文章添加</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span></button>
+            </div>
+
+            <div class="modal-body">
+                <form class="form-horizontal">
+                    <div class="form-group row">
+                        <label class="control-label col-md-3">文章标题</label>
+                        <div class="col-md-8">
+                            <input id="addAccount" name="jDateNum" class="form-control"
+                                   type="text" placeholder="用户账号">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="control-label col-md-3">用户名</label>
+                        <div class="col-md-8">
+                            <input id="addUserName" name="jDateNum" class="form-control"
+                                   type="text" placeholder="用户名">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="control-label col-md-3">密码</label>
+                        <div class="col-md-8">
+                            <input id="addPassword" name="jDateNum" class="form-control"
+                                   type="text" placeholder="密码">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="control-label col-md-3 col-sm-3 ">学校</label>
+                        <div class="col-md-8 col-sm-8 ">
+                            <textarea id="addSchool" name="jCause" class="form-control" rows="3" placeholder="学校"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="control-label col-md-3">Roles</label>
+                        <div class="col-md-8" id="rolesForAddPage" name="roles"></div>
+                    </div>
+                </form>
+            </div>
+
+            <div class="modal-footer">
+                <button id="addMember" type="button" class="btn btn-primary" data-dismiss="modal">添加</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+            </div>
+        </div>
+    </div>
+</div>
