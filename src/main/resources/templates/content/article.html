@@ -13,6 +13,10 @@
 <link href="/plugin/datatables.net-scroller-bs/css/scroller.bootstrap.min.css" rel="stylesheet">
 
 
+<!--editormd-->
+
+<link href="/plugin/editormd/css/editormd.min.css" rel="stylesheet">
+
 
 <!--内容-->
 <div class="content-header">
@@ -44,8 +48,8 @@
             <thead>
             <tr>
                 <th class="wd-10p" >文章Id</th>
-                <th class="wd-15p">文章标题</th>
-                <th class="wd-10p">所显示的图片</th>
+                <th class="wd-10p">文章标题</th>
+                <th class="wd-15p">所显示的图片</th>
                 <th class="wd-15p" style="word-break:break-all; word-wrap:break-word; white-space:inherit">创建时间</th>
                 <th class="wd-10p">所属标签</th>
                 <th class="wd-10p">访问数量</th>
@@ -82,27 +86,53 @@
 <script src="/plugin/datatables.net-responsive-bs/js/responsive.bootstrap.js"></script>
 <script src="/plugin/datatables.net-scroller/js/dataTables.scroller.min.js"></script>
 
+
+<!--editormd-->
+
+<script src="/plugin/editormd/js/editormd.min.js"></script>
+<script src="/plugin/editormd/js/lib/marked.min.js"></script>
+<script src="/plugin/editormd/js/lib/prettify.min.js"></script>
+<script src="/plugin/editormd/js/lib/raphael.min.js"></script>
+<script src="/plugin/editormd/js/lib/underscore.min.js"></script>
+<script src="/plugin/editormd/js/lib/sequence-diagram.min.js"></script>
+<script src="/plugin/editormd/js/lib/flowchart.min.js"></script>
+<script src="/plugin/editormd/js/lib/jquery.flowchart.min.js"></script>
 <script>
     var DEFAULT_PAGE_SIZE = 5;
     var addMemberJudge=1;
     var editMemberJudge=1;
     $(document).ready(function () {
-        initUserTable(DEFAULT_PAGE_SIZE);
+        initArticleTable(DEFAULT_PAGE_SIZE);
 
-        $("#addUserBtn").bind("click", function() {
-            intAddModal();
-        });
-        //
-        $("#addMember").bind("click", function() {
-            addUser();
-        });
-        //
-        $("#editUserBtn").bind("click", function () {
-            editUser();
+        // $("#addUserBtn").bind("click", function() {
+        //     intAddModal();
+        // });
+        // //
+        // $("#addMember").bind("click", function() {
+        //     addUser();
+        // });
+        // //
+        // $("#editUserBtn").bind("click", function () {
+        //     editUser();
+        // });
+
+
+        //editormd
+        editormd("my-editormd", {//注意1：这里的就是上面的DIV的id属性值
+            width   : "90%",
+            height  : 640,
+            syncScrolling : "single",
+            path    : "/plugin/editormd/js/lib/",//注意2：你的路径
+            saveHTMLToTextarea : true,//注意3：这个配置，方便post提交表单
+
+            /**上传图片相关配置如下*/
+            // imageUpload : true,
+            // imageFormats : ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
+            // imageUploadURL : "/smart-api/upload/editormdPic/",//注意你后端的上传图片服务地址
         });
     });
 
-    function initUserTable(pageSize) {
+    function initArticleTable(pageSize) {
         $('#memberTable').DataTable({
             'paging': true, //分页
             "serverSide": true, //开启后端分页
@@ -208,14 +238,7 @@
                 {data: 'operate', width: '80px', sortable: false}
             ]
         });
-    //         <th class="wd-10p" >文章Id</th>
-    //         <th class="wd-15p">文章标题</th>
-    //         <th class="wd-10p">所显示的图片</th>
-    //         <th class="wd-15p" style="word-break:break-all; word-wrap:break-word; white-space:inherit">创建时间</th>
-    //         <th class="wd-10p">所属标签</th>
-    //         <th class="wd-10p">访问数量</th>
-    //         <th class="wd-10p">文章作者</th>
-    //         <th class="wd-20p">操作</th>
+
     }
 
     //行数据结构
