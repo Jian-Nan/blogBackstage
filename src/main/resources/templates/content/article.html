@@ -307,4 +307,25 @@
             }
         });
     }
+    //文章修改模态框初始化
+    function initEditModal() {
+        $.ajax({
+            url: "/api/findUserByUid/" + uid,
+            type: "get",
+            success: function (rs) {
+                $("#articleTitleForAdd").val("");
+                $("#articlePhotoForAdd").val("");
+                $("#articleLabelForAdd").val("");
+                $("#articleAuthorForAdd").val("");
+                $(".editormd-markdown-textarea").val("");
+                $.each(rs.roles, function (i, item) {
+                    $("input[name='roleElementForEdit'][value=" + item.rid + "]")
+                        .attr("checked", "checked");
+                });
+            },
+            error: function (data) {
+                layer.alert(data.responseText, {icon: 0});
+            }
+        });
+    }
 </script>

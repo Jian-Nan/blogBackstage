@@ -1,72 +1,72 @@
-<div id="addMemberModal" class="modal fade bs-example-modal-xl"
-     tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog  modal-xl">
-        <div class="modal-content">
+<!--<div id="addMemberModal" class="modal fade bs-example-modal-xl"-->
+<!--     tabindex="-1" role="dialog" aria-hidden="true">-->
+<!--    <div class="modal-dialog  modal-xl">-->
+<!--        <div class="modal-content">-->
 
-            <div class="modal-header">
-                <h4 class="modal-title" id="myModalLabel">文章添加</h4>
-                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span></button>
-            </div>
+<!--            <div class="modal-header">-->
+<!--                <h4 class="modal-title" id="myModalLabel">文章添加</h4>-->
+<!--                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span></button>-->
+<!--            </div>-->
 
-            <div class="modal-body">
-                <form class="form-horizontal">
-                    <div class="form-group row">
-                        <label class="control-label col-md-3">文章标题</label>
-                        <div class="col-md-8">
-                            <input id="articleTitleForEdit" name="jDateNum" class="form-control"
-                                   type="text" placeholder="文章标题">
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label class="control-label col-md-3">文章图片//暂时不考虑</label>
-                        <div class="col-md-8">
-                            <input id="articlePhotoForEdit" name="jDateNum" class="form-control"
-                                   type="text" placeholder="文章图片">
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label class="control-label col-md-3">所属标签//暂时为输入，后续考虑改为为多选框</label>
-                        <div class="col-md-8">
-                            <input id="articleLabelForEdit" name="jDateNum" class="form-control"
-                                   type="text" placeholder="所属标签">
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label class="control-label col-md-3 col-sm-3 ">作者</label>
-                        <div class="col-md-8 col-sm-8 ">
-                            <textarea id="articleAuthorForEdit" name="jCause" class="form-control" rows="3" placeholder="作者"></textarea>
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <div id="my-editormdForEdit">
-                            <div class="col-md-6 col-sm-6"><textarea id="my-editormd-markdown-doc-edit" name="my-editormd-markdown-doc" style="display:none;"></textarea></div>
-                            <!-- 注意：name属性的值-->
-                            <div class="col-md-6 col-sm-6"><textarea id="my-editormd-html-code-edit" name="my-editormd-html-code" style="display:none; "class="col-md-6 col-sm-6"></textarea></div>
-                        </div>
-                    </div>
-                </form>
-            </div>
+<!--            <div class="modal-body">-->
+<!--                <form class="form-horizontal">-->
+<!--                    <div class="form-group row">-->
+<!--                        <label class="control-label col-md-3">文章标题</label>-->
+<!--                        <div class="col-md-8">-->
+<!--                            <input id="articleTitleForEdit" name="jDateNum" class="form-control"-->
+<!--                                   type="text" placeholder="文章标题">-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <div class="form-group row">-->
+<!--                        <label class="control-label col-md-3">文章图片//暂时不考虑</label>-->
+<!--                        <div class="col-md-8">-->
+<!--                            <input id="articlePhotoForEdit" name="jDateNum" class="form-control"-->
+<!--                                   type="text" placeholder="文章图片">-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <div class="form-group row">-->
+<!--                        <label class="control-label col-md-3">所属标签//暂时为输入，后续考虑改为为多选框</label>-->
+<!--                        <div class="col-md-8">-->
+<!--                            <input id="articleLabelForEdit" name="jDateNum" class="form-control"-->
+<!--                                   type="text" placeholder="所属标签">-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <div class="form-group row">-->
+<!--                        <label class="control-label col-md-3 col-sm-3 ">作者</label>-->
+<!--                        <div class="col-md-8 col-sm-8 ">-->
+<!--                            <textarea id="articleAuthorForEdit" name="jCause" class="form-control" rows="3" placeholder="作者"></textarea>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <div class="form-group row">-->
+<!--                        <div id="my-editormdForEdit">-->
+<!--                            <div class="col-md-6 col-sm-6"><textarea id="my-editormd-markdown-doc-edit" name="my-editormd-markdown-doc" style="display:none;"></textarea></div>-->
+<!--                            &lt;!&ndash; 注意：name属性的值&ndash;&gt;-->
+<!--                            <div class="col-md-6 col-sm-6"><textarea id="my-editormd-html-code-edit" name="my-editormd-html-code" style="display:none; "class="col-md-6 col-sm-6"></textarea></div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </form>-->
+<!--            </div>-->
 
-            <div class="modal-footer">
-                <button id="addArticle" type="button" class="btn btn-primary" data-dismiss="modal">添加</button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
-            </div>
-        </div>
-    </div>
-</div>
-<script type="text/javascript">
-    $(document).ready(function () {
-        editormd("my-editormdForEdit", {//注意1：这里的就是上面的DIV的id属性值
-            width   : "100%",
-            height  : 640,
-            syncScrolling : "single",
-            path    : "/plugin/editormd/js/lib/",//注意2：你的路径
-            saveHTMLToTextarea : true,//注意3：这个配置，方便post提交表单
+<!--            <div class="modal-footer">-->
+<!--                <button id="addArticle" type="button" class="btn btn-primary" data-dismiss="modal">添加</button>-->
+<!--                <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
+<!--<script type="text/javascript">-->
+<!--    $(document).ready(function () {-->
+<!--        editormd("my-editormdForEdit", {//注意1：这里的就是上面的DIV的id属性值-->
+<!--            width   : "100%",-->
+<!--            height  : 640,-->
+<!--            syncScrolling : "single",-->
+<!--            path    : "/plugin/editormd/js/lib/",//注意2：你的路径-->
+<!--            saveHTMLToTextarea : true,//注意3：这个配置，方便post提交表单-->
 
-            /**上传图片相关配置如下*/
-            imageUpload : true,
-            imageFormats : ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
-            imageUploadURL : "/smart-api/upload/editormdPic/",//注意你后端的上传图片服务地址
-        });
-    });
-</script>
+<!--            /**上传图片相关配置如下*/-->
+<!--            imageUpload : true,-->
+<!--            imageFormats : ["jpg", "jpeg", "gif", "png", "bmp", "webp"],-->
+<!--            imageUploadURL : "/smart-api/upload/editormdPic/",//注意你后端的上传图片服务地址-->
+<!--        });-->
+<!--    });-->
+<!--</script>-->
