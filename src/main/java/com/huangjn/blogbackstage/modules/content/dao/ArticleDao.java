@@ -1,9 +1,12 @@
 package com.huangjn.blogbackstage.modules.content.dao;
 
 
+import com.huangjn.blogbackstage.modules.common.vo.Result;
 import com.huangjn.blogbackstage.modules.common.vo.SearchVo;
 import com.huangjn.blogbackstage.modules.content.pojo.Article;
+import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Repository;
 
@@ -31,4 +34,9 @@ public interface ArticleDao {
             "</script>"
     )
     List<Article> findAllAdministrators(SearchVo searchVo);
+
+    @Insert("insert into article (article_id, articleTitle,articlePhoto, createTime, articleLabel,visitNumber,articleAuthor) " +
+            "values (#{aid}, #{articleTitle}, #{articlePhoto}, #{createTime},#{articleLabel},#{visitNumber},#{articleAuthor})")
+    @Options(useGeneratedKeys = true, keyColumn = "article_id", keyProperty = "aid")
+    void insertArticle(Article article);
 }

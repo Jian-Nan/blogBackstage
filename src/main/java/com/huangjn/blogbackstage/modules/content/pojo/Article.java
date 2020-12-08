@@ -23,6 +23,9 @@ public class Article {
 
     private String articleAuthor;
 
+    //文章内容，代码里是存放在一起，数据库中分开存储
+    private String articleText;
+
     public int getAid() {
         return aid;
     }
@@ -77,5 +80,13 @@ public class Article {
 
     public void setArticleAuthor(String articleAuthor) {
         this.articleAuthor = articleAuthor;
+    }
+
+    public String getArticleText() {
+        return articleText;
+    }
+
+    public void setArticleText(String articleText) {
+        this.articleText = articleText;
     }
 }

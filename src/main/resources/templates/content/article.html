@@ -38,7 +38,7 @@
         <!--            新增文章-->
         <div class="clearfix">
             <ul class="nav navbar-right panel_toolbox" style="margin-left:0; float: left;">
-                <button id="addUserBtn" type="button" class="btn btn-primary"
+                <button id="addArticleBtn" type="button" class="md-trigger btn btn-primary btn-sm"
                         data-toggle="modal" data-target="#addMemberModal">新增
                 </button>
                 </li>
@@ -104,32 +104,19 @@
     $(document).ready(function () {
         initArticleTable(DEFAULT_PAGE_SIZE);
 
-        // $("#addUserBtn").bind("click", function() {
+        // $("#addArticleBtn").bind("click", function() {
         //     intAddModal();
         // });
         // //
-        // $("#addMember").bind("click", function() {
-        //     addUser();
-        // });
+        $("#addArticle").bind("click", function() {
+            addArticle();
+        });
         // //
         // $("#editUserBtn").bind("click", function () {
         //     editUser();
         // });
 
-
-        //editormd
-        editormd("my-editormd", {//注意1：这里的就是上面的DIV的id属性值
-            width   : "90%",
-            height  : 640,
-            syncScrolling : "single",
-            path    : "/plugin/editormd/js/lib/",//注意2：你的路径
-            saveHTMLToTextarea : true,//注意3：这个配置，方便post提交表单
-
-            /**上传图片相关配置如下*/
-            // imageUpload : true,
-            // imageFormats : ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
-            // imageUploadURL : "/smart-api/upload/editormdPic/",//注意你后端的上传图片服务地址
-        });
+        
     });
 
     function initArticleTable(pageSize) {
@@ -261,5 +248,33 @@
         }
     }
 
+    //文章添加
+    function addArticle() {
+        var article = {};
+        article.articleTitle=$("#articleTitleForAdd").val();
+        article.articlePhoto = $("#articlePhotoForAdd").val();
+        article.articleLabel = $("#articleLabelForAdd").val();
+        article.articleAuthor = $("#articleAuthorForAdd").val();
+        article.articleText=$(".editormd-markdown-textarea").val();
 
+        $.ajax({
+            url : "/api/insertArticle",
+            type : "post",
+            contentType: "application/json",
+            data : JSON.stringify(article),
+            success : function (rs) {
+                if (rs.status == 200) {
+                    alert(rs.message);
+                    initArticleTable(DEFAULT_PAGE_SIZE);
+                } else {
+                    // layer.alert(rs.messgae, {icon: 0});
+                    alert(rs.message);
+                }
+            },
+            error : function (data) {
+                layer.alert(data.responseText, {icon: 0});
+            }
+        });
+    }
+    //文章删除
 </script>
