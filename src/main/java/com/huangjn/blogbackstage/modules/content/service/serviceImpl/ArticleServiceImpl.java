@@ -38,12 +38,17 @@ public class ArticleServiceImpl implements ArticleService {
     public Result<Object> insertArticle(@RequestBody  Article article) {
         String time = null;
         Date date = new Date();
-
-
         article.setVisitNumber(1);
         article.setCreateTime(date);
         articleDao.insertArticle(article);
         articleContentDao.insertArticleContent(article.getAid(),article.getArticleText());
         return new Result<>(Result.ResultStatus.SUCCESS.status, "添加成功.");
+    }
+
+    @Override
+    public Result<Object> deleteArticleById(int aid) {
+        articleDao.deleteArticleById(aid);
+        articleContentDao.deleteArticleContentById(aid);
+        return new Result<>(Result.ResultStatus.SUCCESS.status, "删除成功.");
     }
 }

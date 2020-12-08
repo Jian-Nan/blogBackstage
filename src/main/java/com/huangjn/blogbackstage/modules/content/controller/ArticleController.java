@@ -6,10 +6,7 @@ import com.huangjn.blogbackstage.modules.common.vo.SearchVo;
 import com.huangjn.blogbackstage.modules.content.pojo.Article;
 import com.huangjn.blogbackstage.modules.content.service.ArticleService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api")
@@ -27,5 +24,10 @@ public class ArticleController {
     @PostMapping("/insertArticle")
     Result<Object> insertArticle(@RequestBody Article article){
         return articleService.insertArticle(article);
+    }
+
+    @DeleteMapping("/deleteArticleById/{aid}")
+    Result<Object> deleteArticleById(@PathVariable int aid) {
+        return articleService.deleteArticleById(aid);
     }
 }

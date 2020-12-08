@@ -9,4 +9,6 @@ public interface ArticleService {
     PageInfo<Article> findAllArticle(SearchVo searchVo);
 
     Result<Object> insertArticle(Article article);
+
+    Result<Object> deleteArticleById(int aid);
 }

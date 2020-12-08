@@ -104,9 +104,9 @@
     $(document).ready(function () {
         initArticleTable(DEFAULT_PAGE_SIZE);
 
-        // $("#addArticleBtn").bind("click", function() {
-        //     intAddModal();
-        // });
+        $("#addArticleBtn").bind("click", function() {
+            intAddModal();
+        });
         // //
         $("#addArticle").bind("click", function() {
             addArticle();
@@ -244,10 +244,18 @@
         this.articleAuthor=articleAuthor;
         this.operate = function () {
             return "<a href='#' class='btn_editcolor' data-toggle='modal' data-target='#userEditModal' " +
-                "onclick='initEditModal(\"" + aid + "\")'>编辑</a>&nbsp;" + "<a href='javascript:void(0);' onclick='deleteUser(\"" + aid + "\")' class='btn_editcolor'>删除</a>";
+                "onclick='initEditModal(\"" + aid + "\")'>编辑</a>&nbsp;" + "<a href='javascript:void(0);' onclick='deleteArticle(\"" + aid + "\")' class='btn_editcolor'>删除</a>";
         }
     }
-
+    //增加文章模态框初始化
+    function intAddModal() {
+        $("#articleTitleForAdd").val("");
+        $("#articlePhotoForAdd").val("");
+        $("#articleLabelForAdd").val("");
+        $("#articleAuthorForAdd").val("");
+        $(".editormd-markdown-textarea").val("");
+    }
+    
     //文章添加
     function addArticle() {
         var article = {};
@@ -277,4 +285,26 @@
         });
     }
     //文章删除
+    function deleteArticle(aid) {
+        bootbox.confirm("Are you sure?", function (result) {
+            if (result) {
+                $.ajax({
+                    url: "/api/deleteArticleById/" + aid,
+                    type: "delete",
+                    success: function (data) {
+                        if (data.status == 200) {
+                            layer.alert(data.message, {icon: 1});
+                            initArticleTable(DEFAULT_PAGE_SIZE);
+                        } else {
+                            window.location.href = data.object;
+                            //layer.msg(data.message, {icon: 0});
+                        }
+                    },
+                    error: function (data) {
+                        layer.msg(data.responseText, {icon: 0});
+                    }
+                });
+            }
+        });
+    }
 </script>
