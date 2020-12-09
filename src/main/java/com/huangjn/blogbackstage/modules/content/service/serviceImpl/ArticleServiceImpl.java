@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import java.text.SimpleDateFormat;
 import java.util.Collections;
 import java.util.Date;
 import java.util.Optional;
@@ -50,5 +49,26 @@ public class ArticleServiceImpl implements ArticleService {
         articleDao.deleteArticleById(aid);
         articleContentDao.deleteArticleContentById(aid);
         return new Result<>(Result.ResultStatus.SUCCESS.status, "删除成功.");
+    }
+
+    @Override
+    public Article findArticleByAid(int aid) {
+        Article article=articleDao.findArticleByAid(aid);
+        String setArticleText=articleContentDao.findArticleContentByAid(aid);
+        article.setArticleText(setArticleText);
+        return article;
+    }
+
+    @Override
+    public Result<Object> editArticle(Article article) {
+        articleDao.editArticle(article);
+        String ArticleText=articleContentDao.findArticleContentByAid(article.getAid());
+        if(ArticleText==null)
+        {
+            articleContentDao.insertArticleContent(article.getAid(),article.getArticleText());
+            return new Result<>(Result.ResultStatus.SUCCESS.status, "编辑成功.");
+        }
+        articleContentDao.editArticleContent(article.getAid(),article.getArticleText());
+        return new Result<>(Result.ResultStatus.SUCCESS.status, "编辑成功.");
     }
 }

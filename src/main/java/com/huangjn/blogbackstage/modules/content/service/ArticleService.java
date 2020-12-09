@@ -11,4 +11,8 @@ public interface ArticleService {
     Result<Object> insertArticle(Article article);
 
     Result<Object> deleteArticleById(int aid);
+
+    Article findArticleByAid(int aid);
+
+    Result<Object> editArticle(Article article);
 }

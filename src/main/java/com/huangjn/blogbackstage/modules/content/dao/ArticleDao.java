@@ -39,4 +39,10 @@ public interface ArticleDao {
 
     @Delete("delete from article where article_id=#{aid}")
     void deleteArticleById(int aid);
+
+    @Select("select article_id as aid, articleTitle, articlePhoto,articleLabel, articleAuthor from article where article_id=#{aid}")
+    Article findArticleByAid(int aid);
+
+    @Update("update article set articleTitle=#{articleTitle},articlePhoto=#{articlePhoto},articleLabel=#{articleLabel},articleAuthor=#{articleAuthor} where article_id=#{aid}")
+    void editArticle(Article article);
 }

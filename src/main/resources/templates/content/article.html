@@ -39,7 +39,7 @@
         <div class="clearfix">
             <ul class="nav navbar-right panel_toolbox" style="margin-left:0; float: left;">
                 <button id="addArticleBtn" type="button" class="md-trigger btn btn-primary btn-sm"
-                        data-toggle="modal" data-target="#addMemberModal">新增
+                        data-toggle="modal" data-target="#addArticleModal">新增
                 </button>
                 </li>
             </ul>
@@ -112,9 +112,9 @@
             addArticle();
         });
         // //
-        // $("#editUserBtn").bind("click", function () {
-        //     editUser();
-        // });
+        $("#editArticle").bind("click", function () {
+            editArticle();
+        });
 
         
     });
@@ -243,7 +243,7 @@
         this.visitNumber = visitNumber;
         this.articleAuthor=articleAuthor;
         this.operate = function () {
-            return "<a href='#' class='btn_editcolor' data-toggle='modal' data-target='#userEditModal' " +
+            return "<a href='#' class='btn_editcolor' data-toggle='modal' data-target='#editArticleModal' " +
                 "onclick='initEditModal(\"" + aid + "\")'>编辑</a>&nbsp;" + "<a href='javascript:void(0);' onclick='deleteArticle(\"" + aid + "\")' class='btn_editcolor'>删除</a>";
         }
     }
@@ -253,7 +253,19 @@
         $("#articlePhotoForAdd").val("");
         $("#articleLabelForAdd").val("");
         $("#articleAuthorForAdd").val("");
-        $(".editormd-markdown-textarea").val("");
+        $("#my-editormd-markdown-doc-add").val("");
+        editormd("my-editormdForAdd", {//注意1：这里的就是上面的DIV的id属性值
+            width   : "100%",
+            height  : 640,
+            syncScrolling : "single",
+            path    : "/plugin/editormd/js/lib/",//注意2：你的路径
+            saveHTMLToTextarea : true,//注意3：这个配置，方便post提交表单
+
+            /**上传图片相关配置如下*/
+            imageUpload : true,
+            imageFormats : ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
+            imageUploadURL : "/smart-api/upload/editormdPic/",//注意你后端的上传图片服务地址
+        });
     }
     
     //文章添加
@@ -263,7 +275,7 @@
         article.articlePhoto = $("#articlePhotoForAdd").val();
         article.articleLabel = $("#articleLabelForAdd").val();
         article.articleAuthor = $("#articleAuthorForAdd").val();
-        article.articleText=$(".editormd-markdown-textarea").val();
+        article.articleText=$("#my-editormd-markdown-doc-add").val();
 
         $.ajax({
             url : "/api/insertArticle",
@@ -308,22 +320,60 @@
         });
     }
     //文章修改模态框初始化
-    function initEditModal() {
+    function initEditModal(aid) {
         $.ajax({
-            url: "/api/findUserByUid/" + uid,
+            url: "/api/findArticleByAid/" + aid,
             type: "get",
             success: function (rs) {
-                $("#articleTitleForAdd").val("");
-                $("#articlePhotoForAdd").val("");
-                $("#articleLabelForAdd").val("");
-                $("#articleAuthorForAdd").val("");
-                $(".editormd-markdown-textarea").val("");
-                $.each(rs.roles, function (i, item) {
-                    $("input[name='roleElementForEdit'][value=" + item.rid + "]")
-                        .attr("checked", "checked");
+                $("#articleIdForEdit").val(aid);
+                $("#articleTitleForEdit").val(rs.articleTitle);
+                $("#articlePhotoForEdit").val(rs.articlePhoto);
+                $("#articleLabelForEdit").val(rs.articleLabel);
+                $("#articleAuthorForEdit").val(rs.articleAuthor);
+                $("#my-editormd-markdown-doc-edit").val(rs.articleText);
+                editormd("my-editormdForEdit", {//注意1：这里的就是上面的DIV的id属性值
+                    width   : "100%",
+                    height  : 640,
+                    syncScrolling : "single",
+                    path    : "/plugin/editormd/js/lib/",//注意2：你的路径
+                    saveHTMLToTextarea : true,//注意3：这个配置，方便post提交表单
+
+                    /**上传图片相关配置如下*/
+                    imageUpload : true,
+                    imageFormats : ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
+                    imageUploadURL : "/smart-api/upload/editormdPic/",//注意你后端的上传图片服务地址
                 });
             },
             error: function (data) {
+                layer.alert(data.responseText, {icon: 0});
+            }
+        });
+    }
+    //文章编辑
+    function editArticle() {
+        var article = {};
+        article.aid=$("#articleIdForEdit").val();
+        article.articleTitle=$("#articleTitleForEdit").val();
+        article.articlePhoto = $("#articlePhotoForEdit").val();
+        article.articleLabel = $("#articleLabelForEdit").val();
+        article.articleAuthor = $("#articleAuthorForEdit").val();
+        article.articleText=$("#my-editormd-markdown-doc-edit").val();
+
+        $.ajax({
+            url : "/api/editArticle",
+            type : "post",
+            contentType: "application/json",
+            data : JSON.stringify(article),
+            success : function (rs) {
+                if (rs.status == 200) {
+                    alert(rs.message);
+                    initArticleTable(DEFAULT_PAGE_SIZE);
+                } else {
+                    // layer.alert(rs.messgae, {icon: 0});
+                    alert(rs.message);
+                }
+            },
+            error : function (data) {
                 layer.alert(data.responseText, {icon: 0});
             }
         });

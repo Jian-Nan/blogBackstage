@@ -30,4 +30,15 @@ public class ArticleController {
     Result<Object> deleteArticleById(@PathVariable int aid) {
         return articleService.deleteArticleById(aid);
     }
+
+    @GetMapping("/findArticleByAid/{aid}")
+    Article findArticleByAid(@PathVariable int aid)
+    {
+        return  articleService.findArticleByAid(aid);
+    }
+    @PostMapping("/editArticle")
+    Result<Object> editArticle(@RequestBody Article article){
+        return articleService.editArticle(article);
+    }
+
 }

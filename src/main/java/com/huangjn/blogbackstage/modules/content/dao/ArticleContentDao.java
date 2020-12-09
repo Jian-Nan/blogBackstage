@@ -1,8 +1,6 @@
 package com.huangjn.blogbackstage.modules.content.dao;
 
-import org.apache.ibatis.annotations.Delete;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -15,4 +13,10 @@ public interface ArticleContentDao {
 
     @Delete("delete from articleContent where aid=#{aid} ")
     void deleteArticleContentById(int aid);
+
+    @Select("select article_text from articleContent where aid=#{aid}")
+    String findArticleContentByAid(int aid);
+
+    @Update("update articleContent set article_text=#{articleText} where aid=#{aid}")
+    void editArticleContent(int aid, String articleText);
 }
