@@ -14,8 +14,8 @@ public class Software {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date createTime;
-    //软件包的内容，代码里是存放在一起，数据库分开
 
+    //软件包的内容，代码里是存放在一起，数据库分开
     private SoftwareContent softwareContent;
 
     public int getSoftwareId() {
