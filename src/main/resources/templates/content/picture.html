@@ -1,10 +1,349 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-picture
-</body>
-</html>
+<!--引入datatablecss-->
+<!-- import css-->
+<link href="cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css">
+<!-- NProgress -->
+<link href="/plugin/nprogress/nprogress.css" rel="stylesheet">
+<!-- iCheck -->
+<link href="/plugin/iCheck/skins/flat/green.css" rel="stylesheet">
+<!-- Datatables -->
+<link href="/plugin/datatables.net-bs/css/dataTables.bootstrap.min.css" rel="stylesheet">
+<link href="/plugin/datatables.net-buttons-bs/css/buttons.bootstrap.min.css" rel="stylesheet">
+<link href="/plugin/datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.min.css" rel="stylesheet">
+<link href="/plugin/datatables.net-responsive-bs/css/responsive.bootstrap.min.css" rel="stylesheet">
+<link href="/plugin/datatables.net-scroller-bs/css/scroller.bootstrap.min.css" rel="stylesheet">
+
+<!--内容-->
+<div class="content-header">
+    <div>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="#">页面</a></li>
+                <li class="breadcrumb-item"><a href="#">权限管理</a></li>
+                <li class="breadcrumb-item active" aria-current="page">权限管理</li>
+            </ol>
+        </nav>
+        <h4 class="content-title content-title-sm">权限管理</h4>
+    </div>
+</div><!-- content-header -->
+<div class="content-body">
+    <div class="component-section">
+        <h5 id="section2" class="tx-semibold">权限管理-数据表</h5>
+        <!--        <p class="mg-b-25">权限管理</p>-->
+        <div class="clearfix">
+            <ul class="nav navbar-right panel_toolbox" style="margin-left:0; float: left;">
+                <button id="addPermissionBtn" type="button" class="btn btn-primary"
+                        data-toggle="modal" data-target="#addPermissionModal">新增
+                </button>
+                </li>
+            </ul>
+        </div>
+        <table id="memberTable" class="table table-striped table-bordered">
+            <thead>
+            <tr>
+                <th class="wd-20p">权限Id</th>
+                <th class="wd-15p">权限名</th>
+                <th class="wd-15p">权限路径</th>
+                <th class="wd-30p">所属角色</th>
+                <th class="wd-20p">操作</th>
+            </tr>
+            </thead>
+        </table>
+
+    </div>
+</div><!-- content-body -->
+<div th:replace="account/permissionEdit"></div>
+<div th:replace="account/permissionAdd"></div>
+<!-- import datatable js-->
+<!-- FastClick -->
+<script src="/plugin/fastclick/lib/fastclick.js"></script>
+<!-- NProgress -->
+<script src="/plugin/nprogress/nprogress.js"></script>
+<!-- iCheck -->
+<script src="/plugin/iCheck/icheck.min.js"></script>
+<!-- Datatables -->
+<script src="/plugin/datatables.net/js/jquery.dataTables.min.js"></script>
+<script src="/plugin/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+<script src="/plugin/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
+<script src="/plugin/datatables.net-buttons-bs/js/buttons.bootstrap.min.js"></script>
+<script src="/plugin/datatables.net-buttons/js/buttons.flash.min.js"></script>
+<script src="/plugin/datatables.net-buttons/js/buttons.html5.min.js"></script>
+<script src="/plugin/datatables.net-buttons/js/buttons.print.min.js"></script>
+<script src="/plugin/datatables.net-fixedheader/js/dataTables.fixedHeader.min.js"></script>
+<script src="/plugin/datatables.net-keytable/js/dataTables.keyTable.min.js"></script>
+<script src="/plugin/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
+<script src="/plugin/datatables.net-responsive-bs/js/responsive.bootstrap.js"></script>
+<script src="/plugin/datatables.net-scroller/js/dataTables.scroller.min.js"></script>
+
+<script>
+    var DEFAULT_PAGE_SIZE = 5;
+    $(document).ready(function () {
+        initPermissionTable(DEFAULT_PAGE_SIZE);
+
+        $("#addPermissionBtn").bind("click", function() {
+            initaddPermission();
+        });
+        //添加权限
+        $("#addPermission").bind("click", function() {
+            addPermission();
+        });
+        //修改权限
+        $("#editPermissionBtn").bind("click", function() {
+            editPermission();
+        });
+    });
+
+    function initPermissionTable(pageSize) {
+        $('#memberTable').DataTable({
+            'paging': true, //分页
+            "serverSide": true, //开启后端分页
+            "pagingType": "full_numbers", //分页样式的类型simple/simple_numbers/full/full_numbers
+            "pageLength": pageSize, //定义初始的页长
+            "processing": true,
+            "destroy": true, //允许销毁替换，在表格重新查询时，可以自动销毁以前的data
+            'lengthChange': true, //控制是否能够调整每页的条数
+            'searching': true,
+            'data-show-refresh': true,
+            'ordering': true,
+            'autoWidth': false,
+            //设置语言为中文
+            "language": {
+                "processing": "处理中...",
+                "lengthMenu": "每页显示 _MENU_ 项结果",
+                "zeroRecords": "没有匹配结果",
+                "info": "显示第 _START_ 至 _END_ 项结果，共 _TOTAL_ 项",
+                "infoEmpty": "显示第 0 至 0 项结果，共 0 项",
+                "infoFiltered": "(由 _MAX_ 项结果过滤)",
+                "infoPostFix": "",
+                "search": "搜索：",
+                "url": "",
+                "emptyTable": "表中数据为空",
+                "loadingRecords": "载入中...",
+                "infoThousands": ",",
+                "paginate": {
+                    "first": "首页",
+                    "previous": "上一页",
+                    "next": "下一页",
+                    "last": "尾页"
+                },
+                "aria": {
+                    "sortAscending": ": 以升序排列此列",
+                    "sortDescending": ": 以降序排列此列"
+                }
+            },
+            "ajax": function (data, callback, settings) {
+                // 从data获取查询数据
+                var columIndex = data.order[0].column;
+                var sort = data.order[0].dir;
+                var orderBy = data.columns[columIndex].name;
+                pageSize = data.length == undefined ? pageSize : data.length;
+
+                var searchVo = {};
+                searchVo.currentPage = (data.start / pageSize) + 1;
+                searchVo.pageSize = pageSize;
+                searchVo.orderBy = orderBy;
+                searchVo.sort = sort;
+                searchVo.keyWord = data.search.value;
+
+                $.ajax({
+                    url: "/api/findAllPermission",
+                    type: "post",
+                    contentType: "application/json",
+                    data: JSON.stringify(searchVo),
+                    success: function (rs) {
+                        var fData = {
+                            draw: 0,
+                            recordsTotal: 0,
+                            recordsFiltered: 0,
+                            data: []
+                        };
+                        if (!rs) {
+                            layer.alert("请求出错，请稍后重试" + rs.errmsg, {icon: 2});
+                            callback(fData);
+                            return;
+                        }
+                        ;
+                        if (rs.list == null) {
+                            $('#datatable tbody tr').remove();
+                            $('#loading').remove();
+                            callback(fData);
+                            return;
+                        }
+                        $('#loading').remove();
+                        var gearDatas = [];
+                        for (var i = 0; i < rs.list.length; i++) {
+                            //包装行数据
+                            var rowData = new TData(rs.list[i].pid, rs.list[i].permissionName,rs.list[i].permissionUrl,rs.list[i].roleName);
+                            // 将行数据放到数组里
+                            gearDatas.push(rowData);
+                        }
+                        fData.data = gearDatas;
+                        fData.recordsTotal = rs.total;
+                        fData.recordsFiltered = rs.total;
+                        callback(fData);
+                    },
+                    error: function (data) {
+                        layer.alert(data.responseText, {icon: 0});
+                    }
+                });
+            },
+            "columns": [ //定义行数据字段
+                {data: 'pid', name: "pid", sortable: true},
+                {data: 'permissionName', name: "permissionName", sortable: true},
+                {data: 'permissionUrl', name: "permissionUrl", sortable: true},
+                {data: 'roleName', name: "roleName", sortable: true},
+                {data: 'operate', width: '80px', sortable: false}
+            ]
+        });
+    }
+
+    //行数据结构
+    function TData(pid, permissionName,permissionUrl,roleName) {
+        this.pid = pid;
+        this.permissionName = permissionName;
+        this.permissionUrl = permissionUrl;
+        this.roleName =roleName;
+        this.operate = function () {
+            return "<a href='#' class='btn_editcolor' data-toggle='modal' data-target='#permissionEditModal' " +
+                "onclick='initEditModal(\"" + pid + "\")'>编辑</a>&nbsp;" + "<a href='javascript:void(0);' onclick='deletePermission(\"" + pid + "\")' class='btn_editcolor'>删除</a>";
+
+        }
+    }
+    function initRoles(rolesDivId,rolesName) {
+        $.ajax({
+            url: "/api/roles",
+            type: "get",
+            success: function (rs) {
+                var rolesDiv = $("#" + rolesDivId);
+                rolesDiv.html("");
+                $.each(rs, function (i, item) {
+                    rolesDiv.append("<input type='checkbox' name='"+rolesName+"' value='"
+                        + item.rid + "'/>" + item.roleName + " ");
+                });
+            },
+            error: function (data) {
+                layer.alert(data.responseText, {icon: 0});
+            }
+        });
+    }
+    //初始化权限添加模块
+    function initaddPermission() {
+        $("#addPermissionName").val("");
+        $("#addPermissionUrl").val("");
+        initRoles("rolesForAddPage", "roleElementForAdd");
+    }
+    //添加权限
+    function addPermission() {
+
+        var permission = {};
+        permission.permissionName=$("#addPermissionName").val();
+        permission.permissionUrl = $("#addPermissionUrl").val();
+        var roles = new Array();
+        $.each($("input[name='roleElementForAdd']"), function(){
+            if(this.checked){
+                var role = {};
+                role.rid = $(this).val();
+                role.roleName=this.nextSibling.data;
+                roles.push(role);
+            }
+        });
+        permission.roles = roles;
+
+        $.ajax({
+            url : "/api/insertPermission",
+            type : "post",
+            contentType: "application/json",
+            data : JSON.stringify(permission),
+            success : function (rs) {
+                if (rs.status == 200) {
+                    alert(rs.message);
+                    initPermissionTable(DEFAULT_PAGE_SIZE);
+                } else {
+                    // layer.alert(rs.messgae, {icon: 0});
+                    alert(rs.message);
+                }
+            },
+            error : function (data) {
+                layer.alert(data.responseText, {icon: 0});
+            }
+        })
+    }
+    //删除权限
+    function deletePermission(pid) {
+        bootbox.confirm("Are you sure?", function (result) {
+            if (result) {
+                $.ajax({
+                    url: "/api/deletePermissionById/" + pid,
+                    type: "delete",
+                    success: function (data) {
+                        if (data.status == 200) {
+                            layer.alert(data.message, {icon: 1});
+                            initPermissionTable(DEFAULT_PAGE_SIZE);
+                        } else {
+                            window.location.href = data.object;
+                            //layer.msg(data.message, {icon: 0});
+                        }
+                    },
+                    error: function (data) {
+                        layer.msg(data.responseText, {icon: 0});
+                    }
+                });
+            }
+        });
+    }
+    //初始化修改框的内容
+    function initEditModal(pid) {
+        initRoles("rolesForEditPage", "roleElementForEdit");
+
+        $.ajax({
+            url: "/api/findPermissionByPid/" + pid,
+            type: "get",
+            success: function (rs) {
+                $("#permissionIdForEditPage").val(rs.pid);
+                $("#editPermissionName").val(rs.permissionName);
+                $("#editPermissionUrl").val(rs.permissionUrl);
+                $.each(rs.roles, function (i, item) {
+                    $("input[name='roleElementForEdit'][value=" + item.rid + "]")
+                        .attr("checked", "checked");
+                });
+            },
+            error: function (data) {
+                layer.alert(data.responseText, {icon: 0});
+            }
+        });
+    }
+    //修改权限
+    function  editPermission() {
+        var permission = {};
+        permission.pid=$("#permissionIdForEditPage").val();
+        permission.permissionName=$("#editPermissionName").val();
+        permission.permissionUrl = $("#editPermissionUrl").val();
+        var roles = new Array();
+        $.each($("input[name='roleElementForEdit']"), function(){
+            if(this.checked){
+                var role = {};
+                role.rid = $(this).val();
+                role.roleName=this.nextSibling.data;
+                roles.push(role);
+            }
+        });
+        permission.roles = roles;
+
+        $.ajax({
+            url : "/api/editPermissionRole",
+            type : "post",
+            contentType: "application/json",
+            data : JSON.stringify(permission),
+            success : function (rs) {
+                if (rs.status == 200) {
+                    alert(rs.message);
+                    initPermissionTable(DEFAULT_PAGE_SIZE);
+                } else {
+                    layer.alert(rs.messgae, {icon: 0});
+                }
+            },
+            error : function (data) {
+                layer.alert(data.responseText, {icon: 0});
+            }
+        });
+    }
+</script>
