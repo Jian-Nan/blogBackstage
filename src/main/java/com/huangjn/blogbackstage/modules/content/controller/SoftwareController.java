@@ -33,4 +33,15 @@ public class SoftwareController {
     {
         return softwareService.deleteSoftwareById(softwareId);
     }
+
+    @GetMapping("/findSoftwareBySid/{softwareId}")
+    Software findSoftwareBySid(@PathVariable int softwareId)
+    {
+        return softwareService.findSoftwareBySid(softwareId);
+    }
+    @PostMapping("/editSoftware")
+    Result<Object> editSoftware(@RequestBody Software software)
+    {
+        return softwareService.editSoftware(software);
+    }
 }

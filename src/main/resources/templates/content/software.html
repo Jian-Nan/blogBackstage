@@ -107,9 +107,9 @@
             addSoftware();
         });
         // //
-        // $("#editUserBtn").bind("click", function () {
-        //     editUser();
-        // });
+        $("#editSoftware").bind("click", function () {
+            editSoftware();
+        });
     });
 
     function initSortwareTable(pageSize) {
@@ -230,7 +230,7 @@
             return '<p>'+createTime+'</p>'
         };
         this.operate = function () {
-            return "<a href='#' class='btn_editcolor' data-toggle='modal' data-target='#userEditModal' " +
+            return "<a href='#' class='btn_editcolor' data-toggle='modal' data-target='#editSoftwareModal' " +
                 "onclick='initEditModal(\"" + softwareId + "\")'>编辑</a>&nbsp;" + "<a href='javascript:void(0);' onclick='deleteSoftware(\"" + softwareId + "\")' class='btn_editcolor'>删除</a>";
         }
     }
@@ -256,7 +256,7 @@
         });
     }
     
-    //增加文章
+    //增加软件
     function addSoftware() {
         var software = {};
         software.softwareName=$("#softwareNameForAdd").val();
@@ -313,6 +313,65 @@
     }
 
     function initEditModal(softwareId) {
+        $.ajax({
+            url: "/api/findSoftwareBySid/" + softwareId,
+            type: "get",
+            success: function (rs) {
+                $("#softwareIdForEdit").val(softwareId);
+                $("#softwareNameForEdit").val(rs.softwareName);
+                $("#softwarePhotoForEdit").val(rs.softwarePhoto);
+                $("#softwareLabelForEdit").val(rs.softwareLabel);
+                $("#articleLinkForEdit").val(rs.softwareContent.link);
+                $("#my-editormd-markdown-doc-edit").val(rs.softwareContent.softwareContent);
+                editormd("my-editormdForEdit", {//注意1：这里的就是上面的DIV的id属性值.
+                    width   : "100%",
+                    height  : 640,
+                    syncScrolling : "single",
+                    path    : "/plugin/editormd/js/lib/",//注意2：你的路径
+                    saveHTMLToTextarea : true,//注意3：这个配置，方便post提交表单
 
+                    /**上传图片相关配置如下*/
+                    imageUpload : true,
+                    imageFormats : ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
+                    imageUploadURL : "/smart-api/upload/editormdPic/",//注意你后端的上传图片服务地址
+                });
+            },
+            error: function (data) {
+                layer.alert(data.responseText, {icon: 0});
+            }
+        });
+    }
+
+    //软件编辑
+    function editSoftware() {
+        var software = {};
+        software.softwareId=$("#softwareIdForEdit").val();
+        software.softwareName=$("#softwareNameForEdit").val();
+        software.softwareLabel = $("#softwareLabelForEdit").val();
+        software.softwarePhoto = $("#softwarePhotoForEdit").val();
+
+        var softwareContent={};
+        softwareContent.softwareContent = $("#my-editormd-markdown-doc-edit").val();
+        softwareContent.link=$("#softwareLinkForEdit").val();
+
+        software.softwareContent=softwareContent;
+        $.ajax({
+            url : "/api/editSoftware",
+            type : "post",
+            contentType: "application/json",
+            data : JSON.stringify(software),
+            success : function (rs) {
+                if (rs.status == 200) {
+                    alert(rs.message);
+                    initArticleTable(DEFAULT_PAGE_SIZE);
+                } else {
+                    // layer.alert(rs.messgae, {icon: 0});
+                    alert(rs.message);
+                }
+            },
+            error : function (data) {
+                layer.alert(data.responseText, {icon: 0});
+            }
+        });
     }
 </script>

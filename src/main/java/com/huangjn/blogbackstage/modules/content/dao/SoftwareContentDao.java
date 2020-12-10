@@ -1,9 +1,7 @@
 package com.huangjn.blogbackstage.modules.content.dao;
 
 import com.huangjn.blogbackstage.modules.content.pojo.SoftwareContent;
-import org.apache.ibatis.annotations.Delete;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -14,4 +12,10 @@ public interface SoftwareContentDao {
 
     @Delete("delete from softwareContent  where s_id=#{softwareId}")
     void deleteSoftwareContentById(int softwareId);
+
+    @Select("select softwareContent,link from softwareContent where s_id=#{softwareId}")
+    SoftwareContent findSoftwareContentBySid(int softwareId);
+
+    @Update("update softwareContent set softwareContent=#{softwareContent},link=#{link} where s_id=#{sid}")
+    void editSoftwareContent(SoftwareContent softwareContent);
 }

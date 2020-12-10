@@ -11,4 +11,8 @@ public interface SoftwareService {
     Result<Object> insertSoftware(Software software);
 
     Result<Object> deleteSoftwareById(int softwareId);
+
+    Software findSoftwareBySid(int softwareId);
+
+    Result<Object> editSoftware(Software software);
 }

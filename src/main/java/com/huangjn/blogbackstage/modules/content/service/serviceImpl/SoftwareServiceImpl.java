@@ -51,4 +51,35 @@ public class SoftwareServiceImpl implements SoftwareService {
         softwareContentDao.deleteSoftwareContentById(softwareId);
         return new Result<>(Result.ResultStatus.SUCCESS.status, "删除成功.");
     }
+
+    @Override
+    public Software findSoftwareBySid(int softwareId) {
+        Software software=softwareDao.findSoftwareBySid(softwareId);
+
+        SoftwareContent softwareContent=softwareContentDao.findSoftwareContentBySid(softwareId);
+        if(softwareContent==null)
+        {
+            softwareContent=new SoftwareContent();
+            softwareContent.setLink("");
+            softwareContent.setSoftwareContent("");
+            software.setSoftwareContent(softwareContent);
+            return software;
+        }
+        software.setSoftwareContent(softwareContent);
+        return software;
+    }
+
+    @Override
+    public Result<Object> editSoftware(Software software) {
+        softwareDao.editSoftware(software);
+        SoftwareContent softwareContent=software.getSoftwareContent();
+        softwareContent.setSid(software.getSoftwareId());
+        if(softwareContentDao.findSoftwareContentBySid(softwareContent.getSid())==null)
+        {
+            softwareContentDao.insertSoftwareContent(softwareContent);
+            return new Result<>(Result.ResultStatus.SUCCESS.status, "编辑成功.");
+        }
+        softwareContentDao.editSoftwareContent(softwareContent);
+        return new Result<>(Result.ResultStatus.SUCCESS.status, "编辑成功.");
+    }
 }

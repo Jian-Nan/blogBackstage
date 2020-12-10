@@ -4,6 +4,7 @@ import com.huangjn.blogbackstage.modules.common.vo.SearchVo;
 import com.huangjn.blogbackstage.modules.content.pojo.Software;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -37,4 +38,10 @@ public interface SoftwareDao {
 
     @Delete("delete from software where softwareId=#{softwareId}")
     void deleteSoftwareById(int softwareId);
+
+    @Select("select softwareName,softwareLabel,softwarePhoto from software where softwareId=#{softwareId}")
+    Software findSoftwareBySid(int softwareId);
+
+    @Update("update software set softwareName=#{softwareName},softwareLabel=#{softwareLabel},softwarePhoto=#{softwarePhoto} where softwareId=#{softwareId}")
+    void editSoftware(Software software);
 }
