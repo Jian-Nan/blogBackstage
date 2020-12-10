@@ -1,0 +1,57 @@
+<div id="addSoftwareModal" class="modal fade bs-example-modal-xl"
+     tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog  modal-xl">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h4 class="modal-title" id="myModalLabel">软件添加</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span></button>
+            </div>
+
+            <div class="modal-body">
+                <form class="form-horizontal">
+                    <div class="form-group row">
+                        <label class="control-label col-md-3">软件名字</label>
+                        <div class="col-md-8">
+                            <input id="softwareNameForAdd" name="jDateNum" class="form-control"
+                                   type="text" placeholder="软件名字">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="control-label col-md-3">软件图片//暂时不考虑完成，后续会用cdn去实现</label>
+                        <div class="col-md-8">
+                            <input id="softwarePhotoForAdd" name="jDateNum" class="form-control"
+                                   type="text" placeholder="软件图片">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="control-label col-md-3">所属标签//暂时为输入，后续考虑改为为多选框</label>
+                        <div class="col-md-8">
+                            <input id="softwareLabelForAdd" name="jDateNum" class="form-control"
+                                   type="text" placeholder="所属标签">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="control-label col-md-3 col-sm-3 ">软件链接</label>
+                        <div class="col-md-8 col-sm-8 ">
+                            <textarea id="softwareLinkForAdd" name="jCause" class="form-control" rows="3" placeholder="软件链接"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div id="my-editormdForAdd">
+                            <textarea id="my-editormd-markdown-doc-add" name="my-editormd-markdown-doc" style="display:none;"></textarea>
+                            <!-- 注意：name属性的值-->
+                            <textarea id="my-editormd-html-code-add" name="my-editormd-html-code" style="display:none; "class="col-md-6 col-sm-6"></textarea>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div class="modal-footer">
+                <button id="addSoftware" type="button" class="btn btn-primary" data-dismiss="modal">添加</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+            </div>
+        </div>
+    </div>
+</div>
+

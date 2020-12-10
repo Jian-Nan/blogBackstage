@@ -2,8 +2,7 @@ package com.huangjn.blogbackstage.modules.content.dao;
 
 import com.huangjn.blogbackstage.modules.common.vo.SearchVo;
 import com.huangjn.blogbackstage.modules.content.pojo.Software;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -30,4 +29,12 @@ public interface SoftwareDao {
             "</script>"
     )
     List<Software> findAllSoftware(SearchVo searchVo);
+
+    @Insert("insert into software(softwareName,softwareLabel,softwarePhoto,createTime) values(#{softwareName},#{softwareLabel},#{softwarePhoto},#{createTime})")
+    @Options(useGeneratedKeys = true, keyColumn = "softwareId", keyProperty = "softwareId")
+    void insertSoftware(Software software);
+
+
+    @Delete("delete from software where softwareId=#{softwareId}")
+    void deleteSoftwareById(int softwareId);
 }
