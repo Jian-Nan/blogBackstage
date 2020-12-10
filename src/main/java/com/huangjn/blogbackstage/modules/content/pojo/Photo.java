@@ -1,11 +1,19 @@
 package com.huangjn.blogbackstage.modules.content.pojo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import java.util.Date;
+
 public class Photo {
     private int photoId;
     private String photoName;
     private String photoContent;
     private String photoUrl;
-    private String photoDate;
+
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private Date photoDate;
 
     public int getPhotoId() {
         return photoId;
@@ -39,11 +47,11 @@ public class Photo {
         this.photoUrl = photoUrl;
     }
 
-    public String getPhotoDate() {
+    public Date getPhotoDate() {
         return photoDate;
     }
 
-    public void setPhotoDate(String photoDate) {
+    public void setPhotoDate(Date photoDate) {
         this.photoDate = photoDate;
     }
 }
